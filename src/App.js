@@ -1,28 +1,36 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+// @flow
+import * as React from 'react'
+import { ThemeProvider } from 'emotion-theming'
+import { NavBar } from './Components/Layout'
+import { Router } from '@reach/router'
+import { css } from 'emotion'
+import { BrowseTales } from './Browse/BrowseTales'
+import { Splash } from './Splash'
+import './App.css'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+const theme = {
+  space: [0, 4, 8, 16, 24, 32, 48, 64, 128, 256, 512],
+  colors: {
+    white: '#FFFFFF',
+    charlestonGreen: '#272D2D',
+    blackCoral: '#59656F',
+    plumpPurple: '#5F4BB6',
+  },
 }
 
-export default App;
+const App = (props: {}) => {
+  const [splashShowing, setSplashShowing] = React.useState(true)
+  return (
+    <ThemeProvider theme={theme}>
+      <div className={css({ paddingTop: 180 })}>
+        <Router>
+          <BrowseTales path="browse" />
+        </Router>
+      </div>
+      <NavBar />
+      {splashShowing && <Splash onComplete={() => setSplashShowing(false)} />}
+    </ThemeProvider>
+  )
+}
+
+export default App

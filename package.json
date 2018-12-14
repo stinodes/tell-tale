@@ -3,15 +3,26 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
-    "react-scripts": "2.1.1"
+    "@emotion/core": "^10.0.4",
+    "@emotion/styled": "^10.0.4",
+    "@reach/router": "^1.2.1",
+    "emotion": "^10.0.4",
+    "emotion-theming": "^10.0.4",
+    "moment": "^2.22.2",
+    "react": "^16.7.0-alpha.2",
+    "react-dom": "^16.7.0-alpha.2",
+    "react-scripts": "2.1.1",
+    "react-spring": "^6.1.10",
+    "recompose": "^0.30.0",
+    "styled-system": "^3.1.11"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "flow": "flow",
+    "prettier": "prettier"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -21,5 +32,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "flow-bin": "^0.87.0",
+    "prettier": "^1.15.3"
+  }
 }
