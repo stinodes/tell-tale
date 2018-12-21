@@ -13,3 +13,20 @@ export const Grid = withProps(({ gutter }) => ({ mx: -gutter || -6 }))(Box)
 export const Col = withProps(({ gutter }) => ({ px: gutter || 6 }))(
   styled(Box)({ display: 'inline-block' }),
 )
+
+export const ScrollView = styled(Box)(
+  ({ horizontal }) => {
+    if (horizontal) return { overflowX: 'auto' }
+    return { overflowY: 'auto', overflowX: 'hidden' }
+  },
+  ({ theme }) => ({
+    '&::-webkit-scrollbar': {
+      backgroundColor: 'transparent',
+      width: 8,
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: theme.colors.charlestonGreen,
+      borderRadius: 4,
+    },
+  }),
+)

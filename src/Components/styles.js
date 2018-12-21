@@ -80,3 +80,16 @@ export const position = compose(
   right,
   bottom,
 )
+
+export const outline = (
+  selectors: Array<'focus' | 'active'> = ['focus', 'active'],
+) => (props: any) =>
+  selectors.reduce(
+    (prev, selector) => ({
+      ...prev,
+      [`:${selector}`]: {
+        outline: 'Highlight thick solid',
+      },
+    }),
+    {},
+  )

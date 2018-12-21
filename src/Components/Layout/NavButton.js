@@ -3,10 +3,13 @@ import * as React from 'react'
 import { Link, Match } from '@reach/router'
 import styled from '@emotion/styled'
 import { Text } from '../Text'
+import { outline } from '../styles'
 import { Flex } from '../Container'
 
-const StyledLink = styled(Text.withComponent(Link))({
+const StyledText = styled(Text)({
   display: 'flex',
+})
+const Button = styled(Flex.withComponent(Link))(outline(), {
   textDecoration: 'none',
 })
 const Border = styled('div')(
@@ -28,31 +31,33 @@ const Border = styled('div')(
 
 type Props = {
   to: string,
+  children: React.Node,
 }
-export const NavLink = (props: Props) => {
+export const NavLink = ({ to, ...props }: Props) => {
   const [hovering, setHovering] = React.useState(false)
   return (
-    <Match path={props.to + '/*'}>
+    <Match path={to + '/*'}>
       {({ match }) => (
-        <Flex
+        <Button
+          to={to}
           position="relative"
           width={200}
           height={64}
           mx={3}
           justifyContent="center"
-          alignItems="center">
-          <StyledLink
+          alignItems="center"
+          onMouseEnter={() => setHovering(true)}
+          onMouseLeave={() => setHovering(false)}>
+          <StyledText
             sans
             color="charlestonGreen"
             textDecoration="none"
             fontSize={20}
             fontWeight="bold"
             {...props}
-            onMouseEnter={() => setHovering(true)}
-            onMouseLeave={() => setHovering(false)}
           />
           <Border hovering={hovering} selected={!!match} />
-        </Flex>
+        </Button>
       )}
     </Match>
   )

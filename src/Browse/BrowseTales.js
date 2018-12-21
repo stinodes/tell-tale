@@ -3,7 +3,7 @@ import * as React from 'react'
 import { css } from 'emotion'
 import { Grid, Col, Flex } from '../Components'
 import { TaleSummary } from './TaleSummary'
-import type { Tale } from './BrowseTypes'
+import type { Tale } from 'tell-tale'
 
 const initialTales: Tale[] = [
   {

@@ -8,6 +8,7 @@
     "@reach/router": "^1.2.1",
     "emotion": "^10.0.4",
     "emotion-theming": "^10.0.4",
+    "formik": "^1.4.1",
     "moment": "^2.22.2",
     "react": "^16.7.0-alpha.2",
     "react-dom": "^16.7.0-alpha.2",

@@ -4,7 +4,7 @@ import { css } from 'emotion'
 import styled from '@emotion/styled'
 import moment from 'moment'
 import { Flex, Text, TaleTitle, Absolute, Box } from '../Components'
-import type { Tale } from './BrowseTypes'
+import type { Tale } from 'tell-tale'
 
 const AvatarCircle = styled(Box)(
   {
@@ -25,9 +25,7 @@ type Props = {
 export const TaleSummary = ({ tale, height = 560 }: Props) => {
   return (
     <Flex flexDirection="column" height={height} position="relative">
-      <Flex py={4} pl={4}>
-        <TaleTitle>{tale.title}</TaleTitle>
-      </Flex>
+      <TaleTitle>{tale.title}</TaleTitle>
       <Flex
         flexDirection="column"
         flex={1}

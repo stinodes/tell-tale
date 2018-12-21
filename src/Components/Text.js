@@ -16,11 +16,24 @@ export const Text = styled('p')(
     fontFamily: sans ? 'Montserrat' : 'Cormorant Garamond',
   }),
 )
+export const Body = styled(Text)(
+  {
+    fontSize: 20,
+  },
+  ({ theme }) => ({ color: theme.colors.charlestonGreen }),
+)
 export const H1 = styled(Text.withComponent('h1'))({ fontFamily: 'Montserrat' })
 export const H2 = styled(Text.withComponent('h2'))({ fontFamily: 'Montserrat' })
 export const H3 = styled(Text.withComponent('h3'))({ fontFamily: 'Montserrat' })
-export const TaleTitle = withProps({
-  fontSize: 36,
-  fontWeight: 'bold',
-  color: 'charlestonGreen',
-})(H3)
+export const TaleTitle = styled(H3)(
+  {
+    fontSize: 36,
+    fontWeight: 'bold',
+  },
+  ({ theme: { space, colors } }) => ({
+    paddingLeft: space[4],
+    paddingTop: space[4],
+    paddingBottom: space[4],
+    color: colors.charlestonGreen,
+  }),
+)
