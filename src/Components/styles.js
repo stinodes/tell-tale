@@ -42,15 +42,16 @@ import {
 export const layout = compose(
   space,
   display,
-  width,
   minWidth,
   maxWidth,
   height,
   minHeight,
   maxHeight,
   verticalAlign,
+  width,
 )
 export const flexBox = compose(
+  () => ({ display: 'flex' }),
   alignItems,
   alignContent,
   justifyContent,

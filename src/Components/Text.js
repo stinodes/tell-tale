@@ -11,29 +11,30 @@ export const Text = styled('p')(
     padding: 0,
     margin: 0,
   },
-  ({ sans, bold }) => ({
-    fontWeight: bold ? 'bold' : undefined,
-    fontFamily: sans ? 'Montserrat' : 'Cormorant Garamond',
+  ({ sans, bold, fontWeight }) => ({
+    fontWeight: bold ? 'bold' : fontWeight,
+    fontFamily: sans ? 'Montserrat' : 'Roboto Slab',
   }),
 )
 export const Body = styled(Text)(
   {
-    fontSize: 20,
+    fontWeight: '300',
   },
-  ({ theme }) => ({ color: theme.colors.charlestonGreen }),
+  ({ theme: { colors, space }, small }) => ({
+    color: colors.blackCoral,
+    fontSize: small ? 16 : 18,
+  }),
 )
 export const H1 = styled(Text.withComponent('h1'))({ fontFamily: 'Montserrat' })
 export const H2 = styled(Text.withComponent('h2'))({ fontFamily: 'Montserrat' })
 export const H3 = styled(Text.withComponent('h3'))({ fontFamily: 'Montserrat' })
+
 export const TaleTitle = styled(H3)(
   {
-    fontSize: 36,
-    fontWeight: 'bold',
+    fontSize: 24,
+    fontWeight: '600',
   },
   ({ theme: { space, colors } }) => ({
-    paddingLeft: space[4],
-    paddingTop: space[4],
-    paddingBottom: space[4],
-    color: colors.charlestonGreen,
+    color: colors.blackCoral,
   }),
 )

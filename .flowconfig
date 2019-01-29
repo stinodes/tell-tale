@@ -4,10 +4,11 @@
 
 [libs]
 flow-typed
-flow-lib
+flow-lib/tell-tale.js
 
 [lints]
 
 [options]
+module.name_mapper.extension='svg' -> '<PROJECT_ROOT>/flow-lib/svg.js'
 
 [strict]
