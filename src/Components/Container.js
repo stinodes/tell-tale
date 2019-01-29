@@ -11,7 +11,6 @@ export const Absolute = withProps({ position: 'absolute' })(Box)
 
 export const Grid = withProps(({ gutter, ...props }) => {
   let invertedGutter
-  let masonryProps = {}
   if (Array.isArray(gutter)) gutter.map(v => -v)
   else if (typeof gutter === 'object')
     invertedGutter = Object.keys(gutter).reduce(

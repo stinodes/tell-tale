@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { css } from 'emotion'
 import { ThemeContext } from '@emotion/core'
-import { Grid, Col, Flex } from '../Components'
+import { Col, Flex } from '../Components'
 import { Page } from '../Components/Layout'
 import { Masonry } from '../Components/Masonry'
 import { TaleSummary } from './TaleSummary'

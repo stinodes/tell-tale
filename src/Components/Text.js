@@ -1,7 +1,6 @@
 // @flow
 import styled from '@emotion/styled'
 import { color } from 'styled-system'
-import withProps from 'recompose/withProps'
 import { typography } from './styles'
 
 export const Text = styled('p')(

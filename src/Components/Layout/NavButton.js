@@ -1,11 +1,9 @@
 // @flow
 import * as React from 'react'
-import { Link, Match } from '@reach/router'
+import { Link } from '@reach/router'
 import { color, height, width } from 'styled-system'
 import styled from '@emotion/styled'
-import { Text } from '../Text'
 import { outline, flexBox } from '../styles'
-import { Flex } from '../Container'
 import { Icon } from '../Icons'
 
 const Button = styled('button')(outline(), color, height, width, flexBox, {

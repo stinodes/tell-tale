@@ -1,23 +1,9 @@
 // @flow
 import * as React from 'react'
 import { css } from 'emotion'
-import styled from '@emotion/styled'
-import moment from 'moment'
-import { Flex, Text, TaleTitle, Absolute, Box, Body } from '../Components'
+import { Flex, Text, TaleTitle, Box, Body } from '../Components'
 import { Tag } from './Tag'
 import type { Tale } from 'tell-tale'
-
-const AvatarCircle = styled(Box)(
-  {
-    height: 30,
-    width: 30,
-    borderRadius: 32 * 0.5,
-    border: 'white 1px solid',
-  },
-  ({ index }) => ({
-    transform: `translateX(${32 * 0.5 * index}px)`,
-  }),
-)
 
 type Props = {
   tale: Tale,

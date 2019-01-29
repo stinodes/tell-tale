@@ -11,8 +11,6 @@ import {
   minHeight,
   maxHeight,
   verticalAlign,
-  size,
-  ratio,
   //flex
   alignItems,
   alignContent,

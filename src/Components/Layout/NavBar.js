@@ -6,7 +6,6 @@ import { color } from 'styled-system'
 import { Flex } from '../Container'
 import { H1 } from '../Text'
 import { NavLink, BackButton } from './NavButton'
-import { Logo } from '../Logo'
 import { flexBox } from '../styles'
 import { PageContext } from './Page'
 

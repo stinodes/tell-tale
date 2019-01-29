@@ -4,7 +4,7 @@ import { ThemeProvider } from 'emotion-theming'
 import { Router, Redirect } from '@reach/router'
 import { css } from 'emotion'
 
-import { ScrollView, Flex, Absolute } from './Components'
+import { ScrollView, Flex } from './Components'
 import { NavBar, PageProvider } from './Components/Layout'
 import { BrowseTales } from './Browse/BrowseTales'
 import { CreateTale } from './Create/CreateTale'

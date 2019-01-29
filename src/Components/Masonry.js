@@ -1,10 +1,9 @@
 // @flow
 import * as React from 'react'
-import { ThemeContext, css } from '@emotion/core'
 import styled from '@emotion/styled'
 import { style } from 'styled-system'
 import debounce from 'debounce'
-import { Grid, Col, Flex } from './Container'
+import { Grid, Col } from './Container'
 
 const DEFAULT_COLS = 3
 
