@@ -4,7 +4,7 @@ import styled from '@emotion/styled'
 import { Text, TaleTitle } from '../Text'
 import { outline } from '../styles'
 
-const withInputStyles = <Props>(Component: React.ComponentType<Props>) =>
+const withInputStyles = <Props: {}>(Component: React.ComponentType<Props>) =>
   styled(Component)(outline(), {
     border: 'none',
   })

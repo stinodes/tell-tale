@@ -1,14 +1,7 @@
 // @flow
 import * as React from 'react'
 import { Link } from '@reach/router'
-import { color, height, width } from 'styled-system'
-import styled from '@emotion/styled'
-import { outline, flexBox } from '../styles'
-import { Icon } from '../Icons'
-
-const Button = styled('button')(outline(), color, height, width, flexBox, {
-  border: 'none',
-})
+import { Icon, IconButton } from '../Icons'
 
 type Props = {
   to?: string,
@@ -17,7 +10,7 @@ type Props = {
 }
 const NavLink = ({ to, onClick, icon, ...props }: Props) => {
   return (
-    <Button
+    <IconButton
       {...props}
       as={to && Link}
       to={to}
@@ -28,7 +21,7 @@ const NavLink = ({ to, onClick, icon, ...props }: Props) => {
       alignItems="center"
       bg="transparent">
       <Icon icon={icon} size={{ sm: 28, md: 32 }} color="lapisLazuliLight" />
-    </Button>
+    </IconButton>
   )
 }
 

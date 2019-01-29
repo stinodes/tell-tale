@@ -1,7 +1,16 @@
 // @flow
 import * as React from 'react'
 import { css } from 'emotion'
-import { Flex, Text, TaleTitle, Box, Body } from '../Components'
+import { Link } from '@reach/router'
+import {
+  Flex,
+  Text,
+  TaleTitle,
+  Box,
+  Body,
+  Icon,
+  IconButton,
+} from '../Components'
 import { Tag } from './Tag'
 import type { Tale } from 'tell-tale'
 
@@ -35,7 +44,7 @@ export const TaleSummary = ({ tale, height = 256 }: Props) => {
         )}
       </Flex>
       <Flex px={5} height={64} justifyContent="space-between">
-        <Flex alignItems="center">
+        <Flex alignItems="center" flex={1}>
           {tale.tags ? (
             tale.tags.map(({ label }) => (
               <Flex mr={1}>
@@ -45,6 +54,22 @@ export const TaleSummary = ({ tale, height = 256 }: Props) => {
           ) : (
             <Text color="lapisLazuliLight">No tags selected</Text>
           )}
+        </Flex>
+        <Flex alignItems="center">
+          <IconButton
+            to={`/tales/${tale.title}`}
+            as={Link}
+            width={40}
+            height={40}
+            justifyContent="center"
+            alignItems="center"
+            bg="transparent">
+            <Icon
+              icon={Icon.ICONS.CornerDownRight}
+              size={32}
+              color="lapisLazuliLight"
+            />
+          </IconButton>
         </Flex>
       </Flex>
     </Flex>
