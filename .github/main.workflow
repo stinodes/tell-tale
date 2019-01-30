@@ -25,6 +25,7 @@ action "Flow" {
 }
 action "Check" {
   needs = ["Test", "Flow"]
+  uses = "borales/actions-yarn@master"
 }
 
 action "Deploy" {
