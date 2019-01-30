@@ -30,10 +30,10 @@ export const H3 = styled(Text.withComponent('h3'))({ fontFamily: 'Montserrat' })
 
 export const TaleTitle = styled(H3)(
   {
-    fontSize: 24,
     fontWeight: '600',
   },
-  ({ theme: { space, colors } }) => ({
+  ({ theme: { space, colors, summary } }) => ({
+    fontSize: summary ? 24 : 40,
     color: colors.blackCoral,
   }),
 )

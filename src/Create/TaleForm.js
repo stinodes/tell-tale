@@ -1,16 +1,37 @@
 // @flow
 import * as React from 'react'
-import { withFormik, Field } from 'formik'
-import { Flex, TitleInput } from '../Components'
+import { space } from 'styled-system'
+import styled from '@emotion/styled'
+import { withFormik, Field, Formik } from 'formik'
+import { Flex, TaleTitle, Body, outline, Outline } from '../Components'
 import type { FormikProps } from 'formik'
 import type { Tale } from 'tell-tale'
 
+const TitleInput = styled(TaleTitle.withComponent('input'))(
+  { border: 'none', outline: 'none' },
+  outline(),
+  space,
+)
+const ParagraphInput = styled(Body.withComponent('textarea'))(
+  { border: 'none', outline: 'none' },
+  outline(),
+  space,
+)
+
 type Props = FormikProps<Tale> & {}
 
-const TaleForm = ({ values, onChange }: Props) => {
+const TaleForm = ({  }: Props) => {
   return (
     <Flex flexDirection="column" position="relative" alignSelf="stretch">
-      <Field component={TitleInput} name="title" placeholder="Title" />
+      <Outline>
+        <Field
+          component={TitleInput}
+          name="title"
+          placeholder="Title"
+          px={5}
+          py={3}
+        />
+      </Outline>
     </Flex>
   )
 }

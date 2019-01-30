@@ -104,7 +104,7 @@ export const interactiveColor = <Props: {}>(fn: Props => ColorStyles) => {
         color: hover(color),
         backgroundColor: hover(backgroundColor),
       },
-      ':focus': {
+      ':active': {
         color: active(color),
         backgroundColor: active(backgroundColor),
       },
@@ -112,19 +112,35 @@ export const interactiveColor = <Props: {}>(fn: Props => ColorStyles) => {
   }
 }
 
-export const outline = <Props: {}>({
+export const outline = <Props: { borderRadius?: number }>({
   borderRadius,
+  focus = true,
+  prop,
 }: {
   borderRadius?: number | (Props => number),
+  focus?: boolean,
+  prop?: string,
 } = {}) => {
   return (props: Props) => {
     let br
+    let focusStyle
     if (typeof borderRadius === 'number') br = borderRadius
     else if (typeof borderRadius === 'function') br = borderRadius(props)
+    if (typeof props.borderRadius === 'number') br = props.borderRadius
+    else if (typeof props.borderRadius === 'function')
+      br = props.borderRadius(props)
+
+    if (focus)
+      focusStyle = {
+        '::before': {
+          borderColor: 'Highlight',
+        },
+      }
+
     return {
       position: 'relative',
       borderRadius: br,
-      ':before': {
+      '::before': {
         content: '" "',
         display: 'block',
         position: 'absolute',
@@ -132,15 +148,12 @@ export const outline = <Props: {}>({
         bottom: -3,
         left: -3,
         right: -3,
-        borderRadius: br && br + 3,
+        borderRadius: br ? br + 3 : 3,
         border: 'transparent 3px solid',
+        borderColor: prop && props[prop] ? 'Highlight' : 'transparent',
         transition: 'border-color .2s ease',
       },
-      ':focus': {
-        ':before': {
-          borderColor: 'Highlight',
-        },
-      },
+      ':focus': focusStyle,
     }
   }
 }

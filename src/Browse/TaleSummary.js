@@ -22,7 +22,7 @@ export const TaleSummary = ({ tale, height = 256 }: Props) => {
   return (
     <Flex flexDirection="column" position="relative" bg="white">
       <Flex px={5} py={3}>
-        <TaleTitle>{tale.title}</TaleTitle>
+        <TaleTitle summary>{tale.title}</TaleTitle>
       </Flex>
       <Flex
         flexDirection="column"
