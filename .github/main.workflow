@@ -7,6 +7,7 @@ workflow "Build on Push" {
 
 action "Yarn Install Dependencies" {
   uses = "borales/actions-yarn@master"
+  args = "install"
 }
 
 action "Yarn Flow" {
