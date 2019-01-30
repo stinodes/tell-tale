@@ -10,6 +10,7 @@ action "Install" {
   uses = "borales/actions-yarn@master"
   args = "install"
 }
+
 action "Test" {
   needs = "Install"
   uses = "borales/actions-yarn@master"
@@ -18,11 +19,13 @@ action "Test" {
     CI = "true"
   }
 }
+
 action "Flow" {
   needs = "Install"
   uses = "borales/actions-yarn@master"
   args = "flow"
 }
+
 action "Check" {
   needs = ["Test", "Flow"]
   uses = "borales/actions-yarn@master"
