@@ -1,10 +1,10 @@
 // @flow
 import * as React from 'react'
 import { ThemeProvider } from 'emotion-theming'
-import { NavBar } from './Components/Layout'
-import { ScrollView, Flex, Absolute } from './Components'
 import { Router } from '@reach/router'
 import { css } from 'emotion'
+import { NavBar } from './Components/Layout'
+import { ScrollView, Flex, Absolute } from './Components'
 import { BrowseTales } from './Browse/BrowseTales'
 import { CreateTale } from './Create/CreateTale'
 import { Splash } from './Splash'
