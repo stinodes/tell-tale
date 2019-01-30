@@ -1,8 +1,12 @@
 // @flow
 import * as React from 'react'
 import styled from '@emotion/styled'
+import { height } from 'styled-system'
+import TextArea from 'react-textarea-autosize'
 import { Text, TaleTitle } from '../Text'
-import { outline } from '../styles'
+import { Box } from '../Container'
+import { outline, layout } from '../styles'
+import type { FieldProps } from 'formik'
 
 const OutlineComp = styled('div')(
   outline({
@@ -10,14 +14,14 @@ const OutlineComp = styled('div')(
     focus: false,
     borderRadius: ({ borderRadius }) => borderRadius,
   }),
+  layout,
 )
 const Outline = ({
   children,
-  borderRadius,
   ...props
 }: {
   children: React.Node,
-  borderRadius: number,
+  borderRadius?: number,
 }) => {
   const [isFocused, setFocused] = React.useState(false)
   const child = React.Children.only(children)
@@ -37,4 +41,25 @@ const Outline = ({
   )
 }
 
-export { Outline }
+const asField = (Comp: React.ComponentType<*>) => ({
+  field,
+  form,
+  ...props
+}: {
+  ...FieldProps,
+  onBlur?: Event => any,
+}) => {
+  return (
+    <Comp
+      {...props}
+      {...field}
+      onBlur={e => {
+        field && field.onBlur(e)
+        // $FlowFixMe :(
+        props.onBlur && props.onBlur(e)
+      }}
+    />
+  )
+}
+
+export { Outline, TextArea, asField }

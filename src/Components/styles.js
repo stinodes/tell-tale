@@ -152,6 +152,7 @@ export const outline = <Props: { borderRadius?: number }>({
         border: 'transparent 3px solid',
         borderColor: prop && props[prop] ? 'Highlight' : 'transparent',
         transition: 'border-color .2s ease',
+        pointerEvents: 'none',
       },
       ':focus': focusStyle,
     }

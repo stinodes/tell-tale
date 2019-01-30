@@ -19,9 +19,9 @@ export const Body = styled(Text)(
   {
     fontWeight: '300',
   },
-  ({ theme: { colors, space }, small }) => ({
+  ({ theme: { colors, space }, summary }) => ({
     color: colors.blackCoral,
-    fontSize: small ? 16 : 18,
+    fontSize: summary ? 18 : 24,
   }),
 )
 export const H1 = styled(Text.withComponent('h1'))({ fontFamily: 'Montserrat' })

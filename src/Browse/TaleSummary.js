@@ -33,12 +33,12 @@ export const TaleSummary = ({ tale, height = 256 }: Props) => {
         })}>
         {tale.description ? (
           <Box px={5} pt={2}>
-            <Body>{tale.description}</Body>
+            <Body summary>{tale.description}</Body>
           </Box>
         ) : (
           tale.paragraphs.map(({ body }, i) => (
             <Box px={5} pt={2}>
-              <Body>{body}</Body>
+              <Body summary>{body}</Body>
             </Box>
           ))
         )}
