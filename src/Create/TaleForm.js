@@ -1,6 +1,6 @@
 // @flow
 import * as React from 'react'
-import { update, insert, remove, splitAt } from 'ramda'
+import { update, insert, remove, splitAt, prop } from 'ramda'
 import { space } from 'styled-system'
 import styled from '@emotion/styled'
 import { withFormik, Field } from 'formik'
@@ -44,22 +44,17 @@ const TaleForm = ({ values: { paragraphs }, setFieldValue }: Props) => {
   React.useEffect(
     () => {
       const { index, position } = paragraphFocus
+      const paragraph = prop(index, inputRefs)
       if (
         typeof index === 'number' &&
         typeof position === 'number' &&
-        inputRefs &&
-        inputRefs[index]
+        paragraph
       ) {
-        inputRefs[index].focus()
-        inputRefs[index].setSelectionRange(position, 0)
+        paragraph.focus()
+        paragraph.setSelectionRange(position, 0)
       }
     },
-    [
-      paragraphFocus,
-      inputRefs && typeof paragraphFocus === 'number'
-        ? inputRefs[paragraphFocus]
-        : null,
-    ],
+    [paragraphFocus, prop(paragraphFocus.index, inputRefs)],
   )
 
   const onKeyDown = (

@@ -32,7 +32,7 @@ export const TaleTitle = styled(H3)(
   {
     fontWeight: '600',
   },
-  ({ theme: { space, colors, summary } }) => ({
+  ({ theme: { space, colors }, summary }) => ({
     fontSize: summary ? 24 : 40,
     color: colors.blackCoral,
   }),
