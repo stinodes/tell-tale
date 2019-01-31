@@ -1,9 +1,9 @@
 // @flow
 import * as React from 'react'
 import { update, insert, remove, splitAt } from 'ramda'
-import { space, height } from 'styled-system'
+import { space } from 'styled-system'
 import styled from '@emotion/styled'
-import { withFormik, Field, Formik } from 'formik'
+import { withFormik, Field } from 'formik'
 import {
   Flex,
   TaleTitle,
@@ -12,7 +12,6 @@ import {
   Outline,
   TextArea,
   asField,
-  Box,
 } from '../Components'
 import type { FormikProps } from 'formik'
 import type { Tale } from 'tell-tale'

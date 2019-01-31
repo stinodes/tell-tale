@@ -1,10 +1,7 @@
 // @flow
 import * as React from 'react'
 import styled from '@emotion/styled'
-import { height } from 'styled-system'
 import TextArea from 'react-textarea-autosize'
-import { Text, TaleTitle } from '../Text'
-import { Box } from '../Container'
 import { outline, layout } from '../styles'
 import type { FieldProps } from 'formik'
 
