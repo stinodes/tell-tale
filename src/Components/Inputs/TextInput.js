@@ -45,7 +45,7 @@ const asField = (Comp: React.ComponentType<*>) => ({
   ...props
 }: {
   ...FieldProps,
-  inputRef?: React.Ref,
+  inputRef?: React.Ref<typeof Comp>,
   onBlur?: Event => any,
 }) => {
   return (

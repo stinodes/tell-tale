@@ -44,22 +44,34 @@ const TaleForm = ({ values: { paragraphs }, setFieldValue }: Props) => {
   React.useEffect(
     () => {
       const { index, position } = paragraphFocus
-      if (inputRefs[index]) {
+      if (
+        typeof index === 'number' &&
+        typeof position === 'number' &&
+        inputRefs &&
+        inputRefs[index]
+      ) {
         inputRefs[index].focus()
         inputRefs[index].setSelectionRange(position, 0)
       }
     },
-    [paragraphFocus, inputRefs[paragraphFocus]],
+    [
+      paragraphFocus,
+      inputRefs && typeof paragraphFocus === 'number'
+        ? inputRefs[paragraphFocus]
+        : null,
+    ],
   )
 
-  const onKeyDown = (e: Event, index: number) => {
+  const onKeyDown = (
+    e: SyntheticKeyboardEvent<HTMLInputElement>,
+    index: number,
+  ) => {
     if (e.keyCode === 13 && !e.shiftKey) {
       e.preventDefault()
 
-      const [body1, body2] = splitAt(
-        e.target.selectionStart,
-        paragraphs[index].body,
-      )
+      const selectionStart: number = (e.target: any).selectionStart
+
+      const [body1, body2] = splitAt(selectionStart, paragraphs[index].body)
 
       const newParagraphs = update(
         index,
@@ -100,7 +112,7 @@ const TaleForm = ({ values: { paragraphs }, setFieldValue }: Props) => {
             component={ParagraphInput}
             name={`paragraphs[${index}].body`}
             placeholder="Write your paragraph..."
-            inputRef={input => (inputRefs[index] = input)}
+            inputRef={input => inputRefs && (inputRefs[index] = input)}
             onKeyDown={e => onKeyDown(e, index)}
           />
         </Outline>
