@@ -18,6 +18,11 @@ import {
 import type { FormikProps } from 'formik'
 import type { Tale } from 'tell-tale'
 
+const Keys = {
+  BACKSPACE: 8,
+  ENTER: 13,
+}
+
 const TitleInput = asField(
   styled(TaleTitle.withComponent('input'))(
     { border: 'none', outline: 'none', width: '100%' },
@@ -70,7 +75,7 @@ const TaleForm = ({
     e: SyntheticKeyboardEvent<HTMLInputElement>,
     index: number,
   ) => {
-    if (e.keyCode === 13 && !e.shiftKey) {
+    if (e.keyCode === Keys.ENTER && !e.shiftKey) {
       e.preventDefault()
 
       const selectionStart: number = (e.target: any).selectionStart
@@ -88,7 +93,11 @@ const TaleForm = ({
       setParagraphFocus({ index: index + 1, position: 0 })
     }
 
-    if (e.keyCode === 8 && !paragraphs[index].body && index !== 0) {
+    if (
+      e.keyCode === Keys.BACKSPACE &&
+      !paragraphs[index].body &&
+      index !== 0
+    ) {
       e.preventDefault()
       const paragraph = prop(index, paragraphs)
       const previousParagraph = prop(index - 1, paragraphs)
