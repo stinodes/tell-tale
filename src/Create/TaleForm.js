@@ -18,18 +18,21 @@ import type { Tale } from 'tell-tale'
 
 const TitleInput = asField(
   styled(TaleTitle.withComponent('input'))(
-    { border: 'none', outline: 'none' },
-    outline(),
+    { border: 'none', outline: 'none', width: '100%' },
     space,
   ),
 )
 const ParagraphInput = asField(
-  styled(Body.withComponent(TextArea))({
-    border: 'none',
-    outline: 'none',
-    overflow: 'hidden',
-    width: '100%',
-  }),
+  styled(Body.withComponent(TextArea))(
+    {
+      border: 'none',
+      outline: 'none',
+      overflow: 'hidden',
+      width: '100%',
+      backgroundColor: 'transparent',
+    },
+    space,
+  ),
 )
 
 type Props = FormikProps<Tale> & {}
@@ -51,7 +54,7 @@ const TaleForm = ({ values: { paragraphs }, setFieldValue }: Props) => {
         paragraph
       ) {
         paragraph.focus()
-        paragraph.setSelectionRange(position, 0)
+        setTimeout(() => paragraph.setSelectionRange(position, position), 100)
       }
     },
     [paragraphFocus, prop(paragraphFocus.index, inputRefs)],
@@ -81,10 +84,12 @@ const TaleForm = ({ values: { paragraphs }, setFieldValue }: Props) => {
 
     if (e.keyCode === 8 && !paragraphs[index].body && index !== 0) {
       e.preventDefault()
+      const paragraph = prop(index, paragraphs)
+      const previousParagraph = prop(index - 1, paragraphs)
       setFieldValue('paragraphs', remove(index, 1, paragraphs))
       setParagraphFocus({
         index: index - 1,
-        position: paragraphs[index].body.length,
+        position: previousParagraph.body.length,
       })
     }
   }
@@ -102,8 +107,10 @@ const TaleForm = ({ values: { paragraphs }, setFieldValue }: Props) => {
         />
       </Outline>
       {paragraphs.map((paragraph, index) => (
-        <Outline px={5} py={3}>
+        <Outline>
           <Field
+            px={5}
+            py={3}
             component={ParagraphInput}
             name={`paragraphs[${index}].body`}
             placeholder="Write your paragraph..."
