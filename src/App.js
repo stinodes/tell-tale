@@ -7,6 +7,7 @@ import { css } from 'emotion'
 import { ScrollView, Flex } from './Components'
 import { NavBar, PageProvider } from './Components/Layout'
 import { BrowseTales } from './Browse/BrowseTales'
+import { TalesProvider } from './Browse/TalesContext'
 import { CreateTale } from './Create/CreateTale'
 import { Splash } from './Splash'
 import './App.css'
@@ -26,17 +27,21 @@ const App = (props: {}) => {
   return (
     <ThemeProvider theme={theme}>
       <PageProvider>
-        <ScrollView as={Flex} flexDirection="column" height="100%">
-          <div className={css({ paddingBottom: 80 })}>
-            <Router>
-              <Redirect noThrow from="/" to="browse" />
-              <BrowseTales path="browse" />
-              <CreateTale path="create" />
-            </Router>
-          </div>
-        </ScrollView>
-        <NavBar />
-        {splashShowing && <Splash onComplete={() => setSplashShowing(false)} />}
+        <TalesProvider>
+          <ScrollView as={Flex} flexDirection="column" height="100%">
+            <div className={css({ paddingBottom: 80 })}>
+              <Router>
+                <Redirect noThrow from="/" to="browse" />
+                <BrowseTales path="browse" />
+                <CreateTale path="create" />
+              </Router>
+            </div>
+          </ScrollView>
+          <NavBar />
+          {splashShowing && (
+            <Splash onComplete={() => setSplashShowing(false)} />
+          )}
+        </TalesProvider>
       </PageProvider>
     </ThemeProvider>
   )

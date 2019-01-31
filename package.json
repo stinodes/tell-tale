@@ -19,7 +19,8 @@
     "react-spring": "^6.1.10",
     "react-textarea-autosize": "^7.1.0",
     "recompose": "^0.30.0",
-    "styled-system": "^3.2.1"
+    "styled-system": "^3.2.1",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",

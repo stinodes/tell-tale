@@ -12,6 +12,8 @@ import {
   Outline,
   TextArea,
   asField,
+  Button,
+  Text,
 } from '../Components'
 import type { FormikProps } from 'formik'
 import type { Tale } from 'tell-tale'
@@ -37,7 +39,11 @@ const ParagraphInput = asField(
 
 type Props = FormikProps<Tale> & {}
 
-const TaleForm = ({ values: { paragraphs }, setFieldValue }: Props) => {
+const TaleForm = ({
+  values: { paragraphs },
+  setFieldValue,
+  handleSubmit,
+}: Props) => {
   const [paragraphFocus, setParagraphFocus] = React.useState({
     index: null,
     position: null,
@@ -95,31 +101,38 @@ const TaleForm = ({ values: { paragraphs }, setFieldValue }: Props) => {
   }
 
   return (
-    <Flex flexDirection="column" position="relative" alignSelf="stretch">
-      <Outline>
-        <Field
-          component={TitleInput}
-          name="title"
-          id="tale-title"
-          placeholder="Title"
-          px={5}
-          py={3}
-        />
-      </Outline>
-      {paragraphs.map((paragraph, index) => (
+    <form onSubmit={handleSubmit}>
+      <Flex flexDirection="column" position="relative" alignSelf="stretch">
         <Outline>
           <Field
+            component={TitleInput}
+            name="title"
+            id="tale-title"
+            placeholder="Title"
             px={5}
             py={3}
-            component={ParagraphInput}
-            name={`paragraphs[${index}].body`}
-            placeholder="Write your paragraph..."
-            inputRef={input => inputRefs && (inputRefs[index] = input)}
-            onKeyDown={e => onKeyDown(e, index)}
           />
         </Outline>
-      ))}
-    </Flex>
+        {paragraphs.map((paragraph, index) => (
+          <Outline>
+            <Field
+              px={5}
+              py={3}
+              component={ParagraphInput}
+              name={`paragraphs[${index}].body`}
+              placeholder="Write your paragraph..."
+              inputRef={input => inputRefs && (inputRefs[index] = input)}
+              onKeyDown={e => onKeyDown(e, index)}
+            />
+          </Outline>
+        ))}
+        <Button type="submit" px={5} py={4} bg="transparent">
+          <Text sans color="lapisLazuliLight" fontSize={20} fontWeight="600">
+            Create Tale
+          </Text>
+        </Button>
+      </Flex>
+    </form>
   )
 }
 

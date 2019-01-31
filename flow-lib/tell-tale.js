@@ -8,6 +8,7 @@ declare module 'tell-tale' {
     label: string,
   }
   declare export type Tale = {
+    id: string,
     title: string,
     description: ?string,
     paragraphs: Paragraph[],
