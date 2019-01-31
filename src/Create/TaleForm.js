@@ -1,5 +1,6 @@
 // @flow
 import * as React from 'react'
+import { update, insert, remove, splitAt } from 'ramda'
 import { space, height } from 'styled-system'
 import styled from '@emotion/styled'
 import { withFormik, Field, Formik } from 'formik'
@@ -35,12 +36,60 @@ const ParagraphInput = asField(
 type Props = FormikProps<Tale> & {}
 
 const TaleForm = ({ values: { paragraphs }, setFieldValue }: Props) => {
+  const [paragraphFocus, setParagraphFocus] = React.useState({
+    index: null,
+    position: null,
+  })
+  const { current: inputRefs } = React.useRef(([]: Array<HTMLInputElement>))
+
+  React.useEffect(
+    () => {
+      const { index, position } = paragraphFocus
+      if (inputRefs[index]) {
+        inputRefs[index].focus()
+        inputRefs[index].setSelectionRange(position, 0)
+      }
+    },
+    [paragraphFocus, inputRefs[paragraphFocus]],
+  )
+
+  const onKeyDown = (e: Event, index: number) => {
+    if (e.keyCode === 13 && !e.shiftKey) {
+      e.preventDefault()
+
+      const [body1, body2] = splitAt(
+        e.target.selectionStart,
+        paragraphs[index].body,
+      )
+
+      const newParagraphs = update(
+        index,
+        { body: body1 },
+        insert(index + 1, { body: body2, id: Math.random() }, paragraphs),
+      )
+
+      setFieldValue('paragraphs', newParagraphs)
+
+      setParagraphFocus({ index: index + 1, position: 0 })
+    }
+
+    if (e.keyCode === 8 && !paragraphs[index].body && index !== 0) {
+      e.preventDefault()
+      setFieldValue('paragraphs', remove(index, 1, paragraphs))
+      setParagraphFocus({
+        index: index - 1,
+        position: paragraphs[index].body.length,
+      })
+    }
+  }
+
   return (
     <Flex flexDirection="column" position="relative" alignSelf="stretch">
       <Outline>
         <Field
           component={TitleInput}
           name="title"
+          id="tale-title"
           placeholder="Title"
           px={5}
           py={3}
@@ -52,6 +101,8 @@ const TaleForm = ({ values: { paragraphs }, setFieldValue }: Props) => {
             component={ParagraphInput}
             name={`paragraphs[${index}].body`}
             placeholder="Write your paragraph..."
+            inputRef={input => (inputRefs[index] = input)}
+            onKeyDown={e => onKeyDown(e, index)}
           />
         </Outline>
       ))}

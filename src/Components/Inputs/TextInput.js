@@ -44,9 +44,11 @@ const Outline = ({
 const asField = (Comp: React.ComponentType<*>) => ({
   field,
   form,
+  inputKey,
   ...props
 }: {
   ...FieldProps,
+  inputRef?: React.Ref,
   onBlur?: Event => any,
 }) => {
   return (

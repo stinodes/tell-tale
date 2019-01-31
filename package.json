@@ -12,6 +12,7 @@
     "formik": "^1.4.1",
     "moment": "^2.22.2",
     "polished": "^2.3.3",
+    "ramda": "^0.26.1",
     "react": "^16.7.0-alpha.2",
     "react-dom": "^16.7.0-alpha.2",
     "react-scripts": "2.1.1",
@@ -38,7 +39,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "flow-bin": "^0.87.0",
+    "flow-bin": "0.87",
     "prettier": "^1.15.3"
   }
 }
