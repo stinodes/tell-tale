@@ -11,6 +11,6 @@ A collaborative writing web-app using React.
 5. Run yarn `start` to start the packager
 6. Optionally run `yarn build` to build the app into static files
 
-Lovies xoxox gossip gurl
+Lovies xoxox, gossip gurl
 
 **Made using React and [Create React App](./CRA.md)**
