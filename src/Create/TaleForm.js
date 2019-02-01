@@ -27,8 +27,9 @@ const Keys = {
 }
 
 const TitleInput = asField(
-  styled(TaleTitle.withComponent('input'))(
+  styled(TaleTitle.withComponent(TextArea))(
     { border: 'none', outline: 'none', width: '100%' },
+    { '::placeholder': { opacity: 0.6, color: 'inherit' } },
     space,
   ),
 )
@@ -42,6 +43,7 @@ const ParagraphInput = asField(
       backgroundColor: 'transparent',
       resize: 'none',
     },
+    { '::placeholder': { opacity: 0.6, color: 'inherit' } },
     space,
   ),
 )
@@ -154,14 +156,14 @@ const TaleForm = ({
                       type="button"
                       noOutline
                       tabIndex={-1}
-                      width={32}
-                      height={32}
+                      width={40}
+                      height={40}
                       bg="transparent"
                       onClick={() => removeParagraph(null, index)}>
                       <Icon
                         color="lapisLazuliLight"
                         icon={Icon.ICONS.X}
-                        size={28}
+                        size={36}
                       />
                     </Button>
                   </Opacity>
