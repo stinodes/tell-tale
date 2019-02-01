@@ -7,7 +7,6 @@ import { Col, Flex } from '../Components'
 import { Page } from '../Components/Layout'
 import { Masonry } from '../Components/Masonry'
 import { TaleSummary } from './TaleSummary'
-import type { Tale } from 'tell-tale'
 
 type Props = {}
 const BrowseTales = (props: Props) => {
@@ -34,26 +33,6 @@ const BrowseTales = (props: Props) => {
             </Col>
           ))}
         </Masonry>
-        {/* <Grid
-          masonry
-          gutter={{
-            lg: 4,
-          }}>
-          {tales.map(tale => (
-            <Col
-              gutter={{
-                lg: 4,
-              }}
-              width={{
-                sm: 1,
-                lg: 1 / 2,
-                xlg: 1 / 3,
-              }}
-              mb={5}>
-              <TaleSummary tale={tale} />
-            </Col>
-          ))}
-        </Grid> */}
       </Flex>
     </Page>
   )

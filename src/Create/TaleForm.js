@@ -8,7 +8,6 @@ import {
   Flex,
   TaleTitle,
   Body,
-  outline,
   Outline,
   TextArea,
   asField,
@@ -37,6 +36,7 @@ const ParagraphInput = asField(
       overflow: 'hidden',
       width: '100%',
       backgroundColor: 'transparent',
+      resize: 'none',
     },
     space,
   ),
@@ -99,7 +99,6 @@ const TaleForm = ({
       index !== 0
     ) {
       e.preventDefault()
-      const paragraph = prop(index, paragraphs)
       const previousParagraph = prop(index - 1, paragraphs)
       setFieldValue('paragraphs', remove(index, 1, paragraphs))
       setParagraphFocus({

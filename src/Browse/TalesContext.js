@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
 import { append, update, remove, findIndex, propEq, find } from 'ramda'
-import uuid from 'uuid/v4'
 import type { Tale } from 'tell-tale'
 
 const initialTales: Tale[] = [
