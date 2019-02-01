@@ -8,7 +8,7 @@ import { Flex } from './Container'
 const Base = styled('button')(
   interactiveColor(color),
   outline({ borderRadius: ({ borderRadius }) => borderRadius }),
-  { border: 'none', outline: 'none' },
+  { border: 'none', outline: 'none', cursor: 'pointer' },
 )
 const Button = withProps(() => ({
   justifyContent: 'center',

@@ -55,7 +55,7 @@ const Masonry = ({ columns: columnsProp, ...props }: Props) => {
     },
     { enable: typeof columnsProp === 'object' },
   )
-  // const { columns } = useResponsiveColumns(props)
+
   const children = React.Children.toArray(props.children)
 
   const columnGroups = children.reduce(

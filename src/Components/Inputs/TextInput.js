@@ -3,9 +3,10 @@ import * as React from 'react'
 import styled from '@emotion/styled'
 import TextArea from 'react-textarea-autosize'
 import { outline, layout } from '../styles'
+import { Flex } from '../Container'
 import type { FieldProps } from 'formik'
 
-const OutlineComp = styled('div')(
+const OutlineComp = styled(Flex)(
   outline({
     prop: 'outline',
     focus: false,
@@ -15,9 +16,11 @@ const OutlineComp = styled('div')(
 )
 const Outline = ({
   children,
+  render,
   ...props
 }: {
   children: React.Node,
+  render?: boolean => React.Node,
   borderRadius?: number,
 }) => {
   const [isFocused, setFocused] = React.useState(false)
@@ -34,6 +37,7 @@ const Outline = ({
           child.props.onBlur && child.props.onBlur(e)
         },
       })}
+      {render && render(isFocused)}
     </OutlineComp>
   )
 }

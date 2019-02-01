@@ -11,6 +11,7 @@ import { ReactComponent as Edit } from './feather/edit-3.svg'
 import { ReactComponent as User } from './feather/user.svg'
 import { ReactComponent as ChevronLeft } from './feather/chevron-left.svg'
 import { ReactComponent as CornerDownRight } from './feather/corner-down-right.svg'
+import { ReactComponent as X } from './feather/x.svg'
 
 const ICONS = {
   ChevronLeft,
@@ -18,6 +19,7 @@ const ICONS = {
   Edit,
   Home,
   User,
+  X,
 }
 
 const IconButton = styled(Base)(color, height, width, flexBox, {

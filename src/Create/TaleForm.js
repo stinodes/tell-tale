@@ -2,6 +2,7 @@
 import * as React from 'react'
 import { update, insert, remove, splitAt, prop } from 'ramda'
 import { space } from 'styled-system'
+import { css } from '@emotion/core'
 import styled from '@emotion/styled'
 import { withFormik, Field } from 'formik'
 import {
@@ -12,7 +13,10 @@ import {
   TextArea,
   asField,
   Button,
+  Absolute,
   Text,
+  Icon,
+  Opacity,
 } from '../Components'
 import type { FormikProps } from 'formik'
 import type { Tale } from 'tell-tale'
@@ -71,26 +75,43 @@ const TaleForm = ({
     [paragraphFocus, prop(paragraphFocus.index, inputRefs)],
   )
 
+  const addParagraph = (
+    e: SyntheticKeyboardEvent<HTMLInputElement>,
+    index: number,
+  ) => {
+    const selectionStart: number = (e.target: any).selectionStart
+
+    const [body1, body2] = splitAt(selectionStart, paragraphs[index].body)
+
+    const newParagraphs = update(
+      index,
+      { body: body1 },
+      insert(index + 1, { body: body2, id: Math.random() }, paragraphs),
+    )
+
+    setFieldValue('paragraphs', newParagraphs)
+
+    setParagraphFocus({ index: index + 1, position: 0 })
+  }
+  const removeParagraph = (
+    e: ?SyntheticKeyboardEvent<HTMLInputElement>,
+    index: number,
+  ) => {
+    const previousParagraph = prop(index - 1, paragraphs)
+    setFieldValue('paragraphs', remove(index, 1, paragraphs))
+    setParagraphFocus({
+      index: index - 1,
+      position: previousParagraph.body.length,
+    })
+  }
+
   const onKeyDown = (
     e: SyntheticKeyboardEvent<HTMLInputElement>,
     index: number,
   ) => {
     if (e.keyCode === Keys.ENTER && !e.shiftKey) {
       e.preventDefault()
-
-      const selectionStart: number = (e.target: any).selectionStart
-
-      const [body1, body2] = splitAt(selectionStart, paragraphs[index].body)
-
-      const newParagraphs = update(
-        index,
-        { body: body1 },
-        insert(index + 1, { body: body2, id: Math.random() }, paragraphs),
-      )
-
-      setFieldValue('paragraphs', newParagraphs)
-
-      setParagraphFocus({ index: index + 1, position: 0 })
+      addParagraph(e, index)
     }
 
     if (
@@ -99,12 +120,7 @@ const TaleForm = ({
       index !== 0
     ) {
       e.preventDefault()
-      const previousParagraph = prop(index - 1, paragraphs)
-      setFieldValue('paragraphs', remove(index, 1, paragraphs))
-      setParagraphFocus({
-        index: index - 1,
-        position: previousParagraph.body.length,
-      })
+      removeParagraph(e, index)
     }
   }
 
@@ -122,7 +138,35 @@ const TaleForm = ({
           />
         </Outline>
         {paragraphs.map((paragraph, index) => (
-          <Outline>
+          <Outline
+            flex={1}
+            render={focused =>
+              index !== 0 && (
+                <Absolute
+                  right={0}
+                  top={0}
+                  className={css({
+                    transform: 'translate-x(100%)',
+                  })}>
+                  <Opacity opacity={focused ? 1 : 0}>
+                    <Button
+                      type="button"
+                      noOutline
+                      tabIndex={-1}
+                      width={40}
+                      height={40}
+                      bg="transparent"
+                      onClick={() => removeParagraph(null, index)}>
+                      <Icon
+                        color="lapisLazuliLight"
+                        icon={Icon.ICONS.X}
+                        size={32}
+                      />
+                    </Button>
+                  </Opacity>
+                </Absolute>
+              )
+            }>
             <Field
               px={5}
               py={3}

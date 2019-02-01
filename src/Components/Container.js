@@ -1,7 +1,7 @@
 // @flow
 import styled from '@emotion/styled'
 import withProps from 'recompose/withProps'
-import { color } from 'styled-system'
+import { color, opacity } from 'styled-system'
 import { layout, position, flexBox } from './styles'
 
 export const Box = styled('div')(layout, position, color)
@@ -45,3 +45,5 @@ export const ScrollView = styled(Box)(
     },
   }),
 )
+
+export const Opacity = styled(Box)({ transition: 'opacity .2s ease' }, opacity)

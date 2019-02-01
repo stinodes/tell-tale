@@ -112,7 +112,7 @@ export const interactiveColor = <Props: {}>(fn: Props => ColorStyles) => {
   }
 }
 
-export const outline = <Props: { borderRadius?: number }>({
+export const outline = <Props: { borderRadius?: number, noOutline?: boolean }>({
   borderRadius,
   focus = true,
   prop,
@@ -124,6 +124,7 @@ export const outline = <Props: { borderRadius?: number }>({
   return (props: Props) => {
     let br
     let focusStyle
+    let outlineStyle
     if (typeof borderRadius === 'number') br = borderRadius
     else if (typeof borderRadius === 'function') br = borderRadius(props)
     if (typeof props.borderRadius === 'number') br = props.borderRadius
@@ -137,10 +138,8 @@ export const outline = <Props: { borderRadius?: number }>({
         },
       }
 
-    return {
-      position: 'relative',
-      borderRadius: br,
-      '::before': {
+    if (!props.noOutline)
+      outlineStyle = {
         content: '" "',
         display: 'block',
         position: 'absolute',
@@ -153,21 +152,13 @@ export const outline = <Props: { borderRadius?: number }>({
         borderColor: prop && props[prop] ? 'Highlight' : 'transparent',
         transition: 'border-color .2s ease',
         pointerEvents: 'none',
-      },
+      }
+
+    return {
+      position: 'relative',
+      borderRadius: br,
+      '::before': outlineStyle,
       ':focus': focusStyle,
     }
   }
 }
-
-// export const outline = (
-//   selectors: Array<'focus' | 'active'> = ['focus', 'active'],
-// ) => (props: any) =>
-//   selectors.reduce(
-//     (prev, selector) => ({
-//       ...prev,
-//       [`:${selector}`]: {
-//         outline: 'Highlight thick solid',
-//       },
-//     }),
-//     {},
-//   )
