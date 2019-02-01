@@ -6,16 +6,21 @@
     "@emotion/core": "^10.0.4",
     "@emotion/styled": "^10.0.4",
     "@reach/router": "^1.2.1",
+    "debounce": "^1.2.0",
     "emotion": "^10.0.4",
     "emotion-theming": "^10.0.4",
     "formik": "^1.4.1",
     "moment": "^2.22.2",
+    "polished": "^2.3.3",
+    "ramda": "^0.26.1",
     "react": "^16.7.0-alpha.2",
     "react-dom": "^16.7.0-alpha.2",
     "react-scripts": "2.1.1",
     "react-spring": "^6.1.10",
+    "react-textarea-autosize": "^7.1.0",
     "recompose": "^0.30.0",
-    "styled-system": "^3.1.11"
+    "styled-system": "^3.2.1",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -36,7 +41,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "flow-bin": "^0.87.0",
+    "flow-bin": "^0.92.0",
     "prettier": "^1.15.3"
   }
 }

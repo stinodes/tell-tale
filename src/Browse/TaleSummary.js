@@ -1,76 +1,77 @@
 // @flow
 import * as React from 'react'
 import { css } from 'emotion'
-import styled from '@emotion/styled'
-import moment from 'moment'
-import { Flex, Text, TaleTitle, Absolute, Box } from '../Components'
+import { Link } from '@reach/router'
+import {
+  Flex,
+  Text,
+  TaleTitle,
+  Box,
+  Body,
+  Icon,
+  IconButton,
+} from '../Components'
+import { Tag } from './Tag'
 import type { Tale } from 'tell-tale'
-
-const AvatarCircle = styled(Box)(
-  {
-    height: 30,
-    width: 30,
-    borderRadius: 32 * 0.5,
-    border: 'white 1px solid',
-  },
-  ({ index }) => ({
-    transform: `translateX(${32 * 0.5 * index}px)`,
-  }),
-)
 
 type Props = {
   tale: Tale,
   height?: number,
 }
-export const TaleSummary = ({ tale, height = 560 }: Props) => {
+export const TaleSummary = ({ tale, height = 256 }: Props) => {
   return (
-    <Flex flexDirection="column" height={height} position="relative">
-      <TaleTitle>{tale.title}</TaleTitle>
+    <Flex flexDirection="column" position="relative" bg="white">
+      <Flex px={5} py={3}>
+        <TaleTitle summary>{tale.title}</TaleTitle>
+      </Flex>
       <Flex
         flexDirection="column"
         flex={1}
+        maxHeight={height}
         className={css({
           overflow: 'hidden',
         })}>
-        {tale.paragraphs.map(({ body }, i) => (
-          <Box mb={i < tale.paragraphs.length - 1 ? 4 : 0}>
-            <Text textAlign="justify" fontSize={18} color="charlestonGreen">
-              {body}
-            </Text>
+        {tale.description ? (
+          <Box px={5} pt={2}>
+            <Body summary>{tale.description}</Body>
           </Box>
-        ))}
+        ) : (
+          tale.paragraphs.map(({ body }, i) => (
+            <Box px={5} pt={2}>
+              <Body summary>{body}</Body>
+            </Box>
+          ))
+        )}
       </Flex>
-      <Absolute
-        bottom={0}
-        left={0}
-        right={0}
-        height={96}
-        className={css({
-          display: 'flex',
-          flexDirection: 'column',
-          background: 'linear-gradient(transparent 0%, white 40%)',
-        })}>
-        <Flex flex={1} />
-        <Flex h={64} flexDirection="row" justifyContent="space-between">
-          <Flex py={4}>
-            <Text sans fontSize={16} color="charlestonGreen">
-              edited: {moment(tale.lastEdit).format('DD MMM, HH:mm')}
-            </Text>
-          </Flex>
-          <Flex alignItems="center">
-            <Flex
-              height={32}
-              width={100}
-              justifyContent="flex-end"
-              flexDirection="reverse-row">
-              {tale.contributors.map((contributor, i, arr) => (
-                <AvatarCircle bg="charlestonGreen" index={arr.length - 1 - i} />
-              ))}
-            </Flex>
-          </Flex>
+      <Flex px={5} height={64} justifyContent="space-between">
+        <Flex alignItems="center" flex={1}>
+          {tale.tags ? (
+            tale.tags.map(({ label }) => (
+              <Flex mr={1}>
+                <Tag>{label}</Tag>
+              </Flex>
+            ))
+          ) : (
+            <Text color="lapisLazuliLight">No tags selected</Text>
+          )}
         </Flex>
-        <Flex bg="charlestonGreen" height={1} width={120} alignSelf="center" />
-      </Absolute>
+        <Flex alignItems="center">
+          <IconButton
+            to={`/tales/${tale.title}`}
+            as={Link}
+            width={40}
+            height={40}
+            justifyContent="center"
+            alignItems="center"
+            bg="transparent">
+            <Icon
+              icon={Icon.ICONS.CornerDownRight}
+              size={32}
+              color="lapisLazuliLight"
+            />
+          </IconButton>
+        </Flex>
+      </Flex>
     </Flex>
   )
 }

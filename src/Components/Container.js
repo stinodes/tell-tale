@@ -1,7 +1,7 @@
 // @flow
 import styled from '@emotion/styled'
 import withProps from 'recompose/withProps'
-import { color } from 'styled-system'
+import { color, opacity } from 'styled-system'
 import { layout, position, flexBox } from './styles'
 
 export const Box = styled('div')(layout, position, color)
@@ -9,10 +9,25 @@ export const Flex = styled(Box)({ display: 'flex' }, flexBox)
 
 export const Absolute = withProps({ position: 'absolute' })(Box)
 
-export const Grid = withProps(({ gutter }) => ({ mx: -gutter || -6 }))(Box)
-export const Col = withProps(({ gutter }) => ({ px: gutter || 6 }))(
-  styled(Box)({ display: 'inline-block' }),
-)
+export const Grid = withProps(({ gutter, ...props }) => {
+  let invertedGutter
+  if (Array.isArray(gutter)) gutter.map(v => -v)
+  else if (typeof gutter === 'object')
+    invertedGutter = Object.keys(gutter).reduce(
+      (prev, k) => ({
+        ...prev,
+        [k]: -gutter[k],
+      }),
+      {},
+    )
+  else invertedGutter = -gutter
+
+  return { ...props, mx: invertedGutter || -6 }
+})(Box)
+export const Col = withProps(({ gutter, ...props }) => ({
+  ...props,
+  px: gutter || 6,
+}))(styled(Box)({ display: 'inline-block' }))
 
 export const ScrollView = styled(Box)(
   ({ horizontal }) => {
@@ -29,4 +44,10 @@ export const ScrollView = styled(Box)(
       borderRadius: 4,
     },
   }),
+)
+
+export const Opacity = styled(Box)(
+  { transition: 'opacity .2s ease' },
+  opacity,
+  ({ hover }) => ({ ':hover': { opacity: hover } }),
 )

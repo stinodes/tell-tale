@@ -11,8 +11,6 @@ import {
   minHeight,
   maxHeight,
   verticalAlign,
-  size,
-  ratio,
   //flex
   alignItems,
   alignContent,
@@ -38,19 +36,21 @@ import {
   right,
   bottom,
 } from 'styled-system'
+import { tint, shade } from 'polished'
 
 export const layout = compose(
   space,
   display,
-  width,
   minWidth,
   maxWidth,
   height,
   minHeight,
   maxHeight,
   verticalAlign,
+  width,
 )
 export const flexBox = compose(
+  () => ({ display: 'flex' }),
   alignItems,
   alignContent,
   justifyContent,
@@ -81,15 +81,84 @@ export const position = compose(
   bottom,
 )
 
-export const outline = (
-  selectors: Array<'focus' | 'active'> = ['focus', 'active'],
-) => (props: any) =>
-  selectors.reduce(
-    (prev, selector) => ({
-      ...prev,
-      [`:${selector}`]: {
-        outline: 'Highlight thick solid',
+type ColorStyles = {
+  backgroundColor: ?string,
+  color: ?string,
+}
+
+const withValidColor = (fn: string => string) => (color: ?string) => {
+  if (!color || color === 'transparent') return color
+  return fn(color)
+}
+export const interactiveColor = <Props: {}>(fn: Props => ColorStyles) => {
+  return (props: Props) => {
+    const { color, backgroundColor } = fn(props)
+    const hover = withValidColor(tint(0.3))
+    const active = withValidColor(shade(0.3))
+    return {
+      color,
+      backgroundColor,
+      transition: 'color .2s ease, background-color .2s ease',
+      outline: 'none',
+      ':hover': {
+        color: hover(color),
+        backgroundColor: hover(backgroundColor),
       },
-    }),
-    {},
-  )
+      ':active': {
+        color: active(color),
+        backgroundColor: active(backgroundColor),
+      },
+    }
+  }
+}
+
+export const outline = <Props: { borderRadius?: number, noOutline?: boolean }>({
+  borderRadius,
+  focus = true,
+  prop,
+}: {
+  borderRadius?: number | (Props => number),
+  focus?: boolean,
+  prop?: string,
+} = {}) => {
+  return (props: Props) => {
+    let br
+    let focusStyle
+    let outlineStyle
+    if (typeof borderRadius === 'number') br = borderRadius
+    else if (typeof borderRadius === 'function') br = borderRadius(props)
+    if (typeof props.borderRadius === 'number') br = props.borderRadius
+    else if (typeof props.borderRadius === 'function')
+      br = props.borderRadius(props)
+
+    if (focus)
+      focusStyle = {
+        '::before': {
+          borderColor: 'Highlight',
+        },
+      }
+
+    if (!props.noOutline)
+      outlineStyle = {
+        content: '" "',
+        display: 'block',
+        position: 'absolute',
+        top: -3,
+        bottom: -3,
+        left: -3,
+        right: -3,
+        borderRadius: br ? br + 3 : 3,
+        border: 'transparent 3px solid',
+        borderColor: prop && props[prop] ? 'Highlight' : 'transparent',
+        transition: 'border-color .2s ease',
+        pointerEvents: 'none',
+      }
+
+    return {
+      position: 'relative',
+      borderRadius: br,
+      '::before': outlineStyle,
+      ':focus': focusStyle,
+    }
+  }
+}
