@@ -58,8 +58,6 @@ const Masonry = ({ columns: columnsProp, ...props }: Props) => {
   // const { columns } = useResponsiveColumns(props)
   const children = React.Children.toArray(props.children)
 
-  console.log(columns)
-
   const columnGroups = children.reduce(
     (prev, child, i) => ({
       ...prev,
