@@ -143,24 +143,25 @@ const TaleForm = ({
             render={focused =>
               index !== 0 && (
                 <Absolute
+                  display={{ sm: 'block', lg: 'none' }}
                   right={0}
                   top={0}
                   className={css({
                     transform: 'translate-x(100%)',
                   })}>
-                  <Opacity opacity={focused ? 1 : 0}>
+                  <Opacity opacity={focused ? 0.5 : 0} hover={focused ? 1 : 0}>
                     <Button
                       type="button"
                       noOutline
                       tabIndex={-1}
-                      width={40}
-                      height={40}
+                      width={32}
+                      height={32}
                       bg="transparent"
                       onClick={() => removeParagraph(null, index)}>
                       <Icon
                         color="lapisLazuliLight"
                         icon={Icon.ICONS.X}
-                        size={32}
+                        size={28}
                       />
                     </Button>
                   </Opacity>

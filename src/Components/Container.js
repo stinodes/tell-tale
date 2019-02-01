@@ -46,4 +46,8 @@ export const ScrollView = styled(Box)(
   }),
 )
 
-export const Opacity = styled(Box)({ transition: 'opacity .2s ease' }, opacity)
+export const Opacity = styled(Box)(
+  { transition: 'opacity .2s ease' },
+  opacity,
+  ({ hover }) => ({ ':hover': { opacity: hover } }),
+)
