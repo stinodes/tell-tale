@@ -1,4 +1,5 @@
 [ignore]
+.*/node_modules/polished/lib/mixins/radialGradient.js.flow
 
 [include]
 
