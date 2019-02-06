@@ -1,7 +1,8 @@
 // @flow
 import styled from '@emotion/styled'
 import withProps from 'recompose/withProps'
-import { color, opacity } from 'styled-system'
+import { transparentize } from 'polished'
+import { color, opacity, boxShadow } from 'styled-system'
 import { layout, position, flexBox } from './styles'
 
 export const Box = styled('div')(layout, position, color)
@@ -51,3 +52,17 @@ export const Opacity = styled(Box)(
   opacity,
   ({ hover }) => ({ ':hover': { opacity: hover } }),
 )
+
+export const Card = styled(Flex)(({ theme, borderRadius, border, shadow }) => ({
+  border:
+    border &&
+    `${transparentize(0.95)(
+      typeof border === 'string' ? border : theme.colors.blackCoral,
+    )} 1px solid`,
+  boxShadow:
+    shadow &&
+    `${transparentize(0.9)(theme.colors.blackCoral)} 0 ${
+      position === 'bottom' ? -8 : 8
+    }px 24px`,
+  borderRadius,
+}))

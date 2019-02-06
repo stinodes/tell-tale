@@ -12,6 +12,8 @@ import { ReactComponent as User } from './feather/user.svg'
 import { ReactComponent as ChevronLeft } from './feather/chevron-left.svg'
 import { ReactComponent as CornerDownRight } from './feather/corner-down-right.svg'
 import { ReactComponent as X } from './feather/x.svg'
+import { ReactComponent as LogIn } from './feather/log-in.svg'
+import { ReactComponent as UserPlus } from './feather/user-plus.svg'
 
 const ICONS = {
   ChevronLeft,
@@ -20,6 +22,8 @@ const ICONS = {
   Home,
   User,
   X,
+  LogIn,
+  UserPlus,
 }
 
 const IconButton = styled(Base)(color, height, width, flexBox, {

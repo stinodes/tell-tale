@@ -112,7 +112,9 @@ export const interactiveColor = <Props: {}>(fn: Props => ColorStyles) => {
   }
 }
 
-export const outline = <Props: { borderRadius?: number, noOutline?: boolean }>({
+export const outline = <
+  Props: { borderRadius?: number, noOutline?: boolean, theme: any },
+>({
   borderRadius,
   focus = true,
   prop,
@@ -122,6 +124,9 @@ export const outline = <Props: { borderRadius?: number, noOutline?: boolean }>({
   prop?: string,
 } = {}) => {
   return (props: Props) => {
+    let {
+      theme: { colors },
+    } = props
     let br
     let focusStyle
     let outlineStyle
@@ -149,7 +154,12 @@ export const outline = <Props: { borderRadius?: number, noOutline?: boolean }>({
         right: -3,
         borderRadius: br ? br + 3 : 3,
         border: 'transparent 3px solid',
-        borderColor: prop && props[prop] ? 'Highlight' : 'transparent',
+        borderColor:
+          prop && props[prop]
+            ? typeof props[prop] === 'string'
+              ? colors[props[prop]] || props[prop]
+              : 'Highlight'
+            : 'transparent',
         transition: 'border-color .2s ease',
         pointerEvents: 'none',
       }
@@ -157,6 +167,7 @@ export const outline = <Props: { borderRadius?: number, noOutline?: boolean }>({
     return {
       position: 'relative',
       borderRadius: br,
+      margin: 1.5,
       '::before': outlineStyle,
       ':focus': focusStyle,
     }

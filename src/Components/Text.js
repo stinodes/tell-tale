@@ -11,7 +11,6 @@ export const Text = styled('p')(
     margin: 0,
   },
   ({ sans, bold, fontWeight }) => ({
-    fontWeight: bold ? 'bold' : fontWeight,
     fontFamily: sans ? 'Montserrat' : 'Roboto Slab',
   }),
 )
