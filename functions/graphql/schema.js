@@ -7,6 +7,11 @@ const schema = `
   type Query {
     tales: [Tale]
     users: [User]
+    me: User
+  }
+
+  type Mutation {
+    addUser(authUid: String!, pseudonym: String, firstName: String, lastName: String): User
   }
 
   type Tale {
@@ -14,6 +19,7 @@ const schema = `
     title: String!
     description: String
     paragraphs: [Paragraph]
+    tags: [Tag]
     author: User!
   }
 
@@ -24,10 +30,15 @@ const schema = `
   }
 
   type User {
-    authUid: String!
+    id: String!
     pseudonym: String
     firstName: String
     lastName: String
+  }
+
+  type Tag {
+    label: String!
+    name: String!
   }
 `
 
@@ -40,8 +51,25 @@ const usersReference = admin.firestore().collection('users')
 const resolvers = {
   Query: {
     async tales() {
-      const talesSnapshot = await talesReference.orderBy('title', 'desc').get()
+      const talesSnapshot = await talesReference.get()
       return map(data, talesSnapshot.docs)
+    },
+    async users() {
+      const usersSnapshot = await usersReference.get()
+      return map(data, usersSnapshot.docs)
+    },
+  },
+  Mutation: {
+    async addUser(_, { pseudonym, firstName, lastName }, { req }) {
+      if (!req.uid) throw new Error('You are not logged in.')
+      const doc = await usersReference.add({
+        authUid: req.uid,
+        pseudonym,
+        firstName,
+        lastName,
+      })
+      return data(await doc.get())
+      // return { id: 'test', authUid: 'test' }
     },
   },
   Tale: {

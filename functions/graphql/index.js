@@ -22,6 +22,9 @@ app.use((req, res, next) => {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context: ({ req }) => ({
+    req,
+  }),
   playground: true,
   introspection: true,
 })

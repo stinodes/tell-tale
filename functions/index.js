@@ -1,8 +1,6 @@
 const functions = require('firebase-functions')
 const app = require('./graphql')
 
-console.log('API::', app)
-
 exports.api = functions.https.onRequest(app)
 
 // // Create and Deploy Your First Cloud Functions
