@@ -1,9 +1,9 @@
 const functions = require('firebase-functions')
 const express = require('express')
 const cors = require('cors')
-const apolloServerExpress = require('apollo-server-express')
+const { ApolloServer, gql } = require('apollo-server-express')
 const schemaPrinter = require('graphql/utilities/schemaPrinter')
-const schema = require('./graphql/schema')
+const { typeDefs, resolvers } = require('./schema')
 
 const app = express()
 
@@ -13,14 +13,19 @@ app.use((req, res, next) => {
   res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate')
   return next()
 })
-app.use('/graphql', apolloServerExpress.graphqlExpress({ schema }))
-app.use(
-  '/graphiql',
-  apolloServerExpress.graphiqlExpress({ endpointURL: '/api/graphql' }),
-)
-app.use('/schema', (req, res) => {
-  res.set('Content-Type', 'text/plain')
-  res.send(schemaPrinter.printSchema(schema))
+
+// app.use('/schema', (req, res) => {
+//   res.set('Content-Type', 'text/plain')
+//   res.send(schemaPrinter.printSchema(schema))
+// })
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  playground: true,
+  introspection: true,
 })
+
+server.applyMiddleware({ app })
 
 module.exports = app
