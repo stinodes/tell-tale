@@ -1,6 +1,8 @@
 // @flow
 import * as React from 'react'
 import * as firebase from 'firebase/app'
+import gql from 'graphql-tag'
+import { useMutation, useQuery } from 'react-apollo-hooks'
 import type { Profile } from 'tell-tale'
 
 type LogInInfo = {
@@ -17,7 +19,7 @@ type RegisterInfo = {
 }
 type Context = {
   profile: ?Profile,
-  loggedIn: boolean,
+  loggedIn: ?boolean,
 
   logIn: LogInInfo => Promise<void>,
   register: RegisterInfo => Promise<void>,
@@ -31,39 +33,77 @@ const ProfileContext = React.createContext<Context>({
   logOut: () => Promise.resolve(),
 })
 
-const api = {
-  logIn: async ({ email, password }: LogInInfo) => {
-    await firebase.auth().signInWithEmailAndPassword(email, password)
-  },
-  register: async ({ email, password }: RegisterInfo) => {
-    console.log('registering')
-    await firebase.auth().createUserWithEmailAndPassword(email, password)
-  },
-  logOut: async () => {
-    await firebase.auth().signOut()
-  },
-}
+const ADD_USER = gql`
+  mutation addUser($user: AddUserInput!) {
+    addUser(user: $user) {
+      id
+    }
+  }
+`
+const GET_ME = gql`
+  {
+    me {
+      pseudonym
+      firstName
+      lastName
+    }
+  }
+`
+const logIn = async ({ email, password }: LogInInfo) =>
+  firebase.auth().signInWithEmailAndPassword(email, password)
+
+const createLogIn = async ({
+  email,
+  password,
+}: {
+  email: string,
+  password: string,
+}) => firebase.auth().createUserWithEmailAndPassword(email, password)
+
+const logOut = async () => firebase.auth().signOut()
 
 type Props = {
   children: React.Node,
 }
 const ProfileProvider = (props: Props) => {
-  const [profile, setProfile] = React.useState(null)
+  const [user, setUser] = React.useState()
+  const addUser = useMutation(ADD_USER)
+
+  const {
+    data: { me: profile },
+  } = useQuery(GET_ME, {
+    suspend: false,
+    variables: { uid: user && user.uid },
+  })
+
   React.useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
-      console.log(user)
-      setProfile(user)
+      setUser(user)
     })
   }, [])
+
   const value = {
-    ...api,
-    profile,
-    loggedIn: !!profile,
+    logIn,
+    register: async ({
+      email,
+      password,
+      confirmPassword,
+      ...userInput
+    }: RegisterInfo) => {
+      await createLogIn({ email, password })
+      await firebase.auth().currentUser.getIdToken()
+      await addUser({ variables: { user: userInput } })
+    },
+    logOut,
+    profile: profile,
+    loggedIn: user === undefined ? null : !!user,
   }
+
   return <ProfileContext.Provider {...props} value={value} />
 }
 
 const useProfileContext = (): Context => React.useContext(ProfileContext)
 const useProfile = (): ?Profile => useProfileContext().profile
+const useIsLoggedIn = (): ?boolean => useProfileContext().loggedIn
 
-export { useProfileContext, useProfile, ProfileProvider }
+export { useProfileContext, useProfile, useIsLoggedIn, ProfileProvider }

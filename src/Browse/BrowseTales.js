@@ -5,7 +5,6 @@ import { ThemeContext } from '@emotion/core'
 import gql from 'graphql-tag'
 import { useQuery } from 'react-apollo-hooks'
 
-import { useTales } from './TalesContext'
 import { Col, Flex } from '../Components'
 import { Page } from '../Components/Layout'
 import { Masonry } from '../Components/Masonry'
@@ -29,16 +28,13 @@ const GET_TALES = gql`
 
 type Props = {}
 const BrowseTales = (props: Props) => {
-  // const tales = useTales()
   const {
     data: { tales },
-    error,
-    loading,
   } = useQuery(GET_TALES, {
     suspend: false,
   })
   const { breakpoints } = React.useContext(ThemeContext)
-  console.log('tales!', tales)
+
   return (
     <Page title="Browse">
       <Flex

@@ -2,7 +2,7 @@
 import styled from '@emotion/styled'
 import withProps from 'recompose/withProps'
 import { transparentize } from 'polished'
-import { color, opacity, boxShadow } from 'styled-system'
+import { color, opacity } from 'styled-system'
 import { layout, position, flexBox } from './styles'
 
 export const Box = styled('div')(layout, position, color)

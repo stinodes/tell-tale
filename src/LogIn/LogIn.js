@@ -7,16 +7,7 @@ import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
 
 import { Page } from '../Components/Layout'
-import {
-  H3,
-  Flex,
-  asField,
-  Outline,
-  Button,
-  Text,
-  Card,
-  Icon,
-} from '../Components'
+import { H3, Flex, asField, Outline, Button, Text } from '../Components'
 import { useProfileContext } from '../Profile/ProfileContext'
 
 const Input = asField(

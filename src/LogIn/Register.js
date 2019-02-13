@@ -6,6 +6,7 @@ import { space } from 'styled-system'
 import { Formik, Field } from 'formik'
 import * as Yup from 'yup'
 
+import { errorOutline } from '../utils/forms'
 import { Page } from '../Components/Layout'
 import {
   H3,
@@ -14,8 +15,7 @@ import {
   Outline,
   Button,
   Text,
-  Card,
-  Icon,
+  Divider,
 } from '../Components'
 import { useProfileContext } from '../Profile/ProfileContext'
 
@@ -34,6 +34,12 @@ const Input = asField(
 )
 
 const validationSchema = Yup.object({
+  pseudonym: Yup.string().when(['firstName', 'lastName'], {
+    is: (firstName, lastName) => !firstName && !lastName,
+    then: s => s.required(),
+  }),
+  firstName: Yup.string(),
+  lastName: Yup.string(),
   email: Yup.string()
     .email()
     .required(),
@@ -69,7 +75,75 @@ const Register = (props: Props) => {
                 </H3>
               </Flex>
               <Outline
-                outline={touched.email && errors.email ? 'error' : undefined}>
+                outline={errorOutline('pseudonym', {
+                  errors,
+                  touched,
+                })}>
+                <Field
+                  sans
+                  component={Input}
+                  placeholder="Pseudonym"
+                  name="pseudonym"
+                  fontWeight="600"
+                  fontSize={18}
+                  px={5}
+                  py={3}
+                />
+              </Outline>
+              <Flex px={5} py={3}>
+                <Text sans fontWeight="700" fontSize={14} color="blackCoral">
+                  And / Or
+                </Text>
+              </Flex>
+              <Flex flexDirection="row">
+                <Outline
+                  outline={errorOutline('firstName', {
+                    errors,
+                    touched,
+                  })}>
+                  <Field
+                    sans
+                    component={Input}
+                    placeholder="First name"
+                    name="firstName"
+                    fontWeight="600"
+                    fontSize={18}
+                    px={5}
+                    py={3}
+                  />
+                </Outline>
+                <Outline
+                  outline={errorOutline('lastName', {
+                    errors,
+                    touched,
+                  })}>
+                  <Field
+                    sans
+                    component={Input}
+                    placeholder="Last name"
+                    name="lastName"
+                    fontWeight="600"
+                    fontSize={18}
+                    px={5}
+                    py={3}
+                  />
+                </Outline>
+              </Flex>
+
+              <Divider
+                alignSelf="flex-start"
+                width={200}
+                horizontal
+                my={5}
+                mx={5}
+                bg="blackCoral"
+              />
+
+              <Outline
+                outline={errorOutline('email', {
+                  errors,
+                  touched,
+                })}>
                 <Field
                   sans
                   component={Input}
@@ -82,10 +156,7 @@ const Register = (props: Props) => {
                   py={3}
                 />
               </Outline>
-              <Outline
-                outline={
-                  touched.password && errors.password ? 'error' : undefined
-                }>
+              <Outline outline={errorOutline('password', { errors, touched })}>
                 <Field
                   sans
                   component={Input}
@@ -98,12 +169,9 @@ const Register = (props: Props) => {
                   py={3}
                 />
               </Outline>
+
               <Outline
-                outline={
-                  touched.confirmPassword && errors.confirmPassword
-                    ? 'error'
-                    : undefined
-                }>
+                outline={errorOutline('confirmPassword', { errors, touched })}>
                 <Field
                   sans
                   component={Input}
@@ -126,6 +194,7 @@ const Register = (props: Props) => {
                   Register
                 </Text>
               </Button>
+
               <Button bg="transparent" px={5} py={4} to="/log-in">
                 <Text
                   sans

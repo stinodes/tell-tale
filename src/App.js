@@ -1,10 +1,12 @@
 // @flow
 import * as React from 'react'
 import { ThemeProvider } from 'emotion-theming'
+import * as firebase from 'firebase/app'
 import { Router, Redirect } from '@reach/router'
 import { css } from 'emotion'
 import { tint } from 'polished'
 import { ApolloClient } from 'apollo-client'
+import { setContext } from 'apollo-link-context'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloProvider } from 'react-apollo-hooks'
@@ -17,8 +19,7 @@ import { CreateTale } from './Create/CreateTale'
 import { Profile } from './Profile/Profile'
 import { LogIn } from './LogIn/LogIn'
 import { Register } from './LogIn/Register'
-import { ProfileProvider } from './Profile/ProfileContext'
-import { Splash } from './Splash'
+import { ProfileProvider, useIsLoggedIn } from './Profile/ProfileContext'
 import './App.css'
 
 const theme = {
@@ -32,18 +33,37 @@ const theme = {
   },
 }
 
+const authLink = setContext(async (_, { headers }) => {
+  const user = firebase.auth().currentUser
+  const token = user ? await user.getIdToken() : ''
+  return {
+    headers: {
+      ...headers,
+      authorization: token && `Bearer ${token}`,
+    },
+  }
+})
+
 const client = new ApolloClient({
-  link: createHttpLink({
-    uri:
-      process.env.NODE_ENV === 'development'
-        ? 'http://localhost:5000/tell-tale-4f929/us-central1/api/graphql'
-        : null,
-  }),
+  link: authLink.concat(
+    createHttpLink({
+      uri:
+        process.env.NODE_ENV === 'development'
+          ? 'http://localhost:5000/tell-tale-4f929/us-central1/api/graphql'
+          : null,
+    }),
+  ),
   cache: new InMemoryCache(),
 })
 
+const AuthWrapper = ({ children }: { children: React.Node }) => {
+  const isLoggedIn = useIsLoggedIn()
+  if (isLoggedIn === null) return null
+  return children
+}
+
 const App = (props: {}) => {
-  const [splashShowing, setSplashShowing] = React.useState(true)
+  // const [splashShowing, setSplashShowing] = React.useState(true)
   return (
     <ThemeProvider theme={theme}>
       <ApolloProvider client={client}>
@@ -51,20 +71,22 @@ const App = (props: {}) => {
           <TalesProvider>
             <ProfileProvider>
               <ScrollView as={Flex} flexDirection="column" height="100%">
-                <Router
-                  className={css({
-                    display: 'flex',
-                    paddingBottom: 80,
-                    flexGrow: 1,
-                    flexDirection: 'column',
-                  })}>
-                  <Redirect noThrow from="/" to="browse" />
-                  <BrowseTales path="browse" />
-                  <CreateTale path="create" />
-                  <Profile path="profile" />
-                  <LogIn path="log-in" />
-                  <Register path="register" />
-                </Router>
+                <AuthWrapper>
+                  <Router
+                    className={css({
+                      display: 'flex',
+                      paddingBottom: 80,
+                      flexGrow: 1,
+                      flexDirection: 'column',
+                    })}>
+                    <Redirect noThrow from="/" to="browse" />
+                    <BrowseTales path="browse" />
+                    <CreateTale path="create" />
+                    <Profile path="profile" />
+                    <LogIn path="log-in" />
+                    <Register path="register" />
+                  </Router>
+                </AuthWrapper>
               </ScrollView>
               <NavBar />
               {/* {splashShowing && (

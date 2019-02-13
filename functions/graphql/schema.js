@@ -1,6 +1,7 @@
 const graphqlTools = require('graphql-tools')
 const admin = require('firebase-admin')
 const functions = require('firebase-functions')
+const { AuthenticationError } = require('apollo-server-express')
 const { prop, map, call, compose } = require('ramda')
 
 const schema = `
@@ -11,7 +12,13 @@ const schema = `
   }
 
   type Mutation {
-    addUser(authUid: String!, pseudonym: String, firstName: String, lastName: String): User
+    addUser(user: AddUserInput!): User
+  }
+  
+  input AddUserInput {
+    pseudonym: String
+    firstName: String
+    lastName: String
   }
 
   type Tale {
@@ -50,7 +57,7 @@ const usersReference = admin.firestore().collection('users')
 
 const resolvers = {
   Query: {
-    async tales() {
+    async tales(_, __, { req }) {
       const talesSnapshot = await talesReference.get()
       return map(data, talesSnapshot.docs)
     },
@@ -58,10 +65,28 @@ const resolvers = {
       const usersSnapshot = await usersReference.get()
       return map(data, usersSnapshot.docs)
     },
+    async me(_, __, { req }) {
+      if (!req.uid) throw new AuthenticationError('You are not logged in.')
+
+      const userSnapshot = await usersReference
+        .where('authUid', '==', req.uid)
+        .limit(1)
+        .get()
+
+      const user = data(userSnapshot.docs[0])
+
+      return user
+    },
   },
   Mutation: {
-    async addUser(_, { pseudonym, firstName, lastName }, { req }) {
-      if (!req.uid) throw new Error('You are not logged in.')
+    async addUser(
+      _,
+      {
+        user: { pseudonym = '', firstName = '', lastName = '' },
+      },
+      { req },
+    ) {
+      if (!req.uid) throw new AuthenticationError('You are not logged in.')
       const doc = await usersReference.add({
         authUid: req.uid,
         pseudonym,
