@@ -5,15 +5,15 @@ import gql from 'graphql-tag'
 import { useMutation, useQuery } from 'react-apollo-hooks'
 import type { Profile } from 'tell-tale'
 
-type LogInInfo = {
+export type LogInInfo = {
   email: string,
   password: string,
 }
 
-type RegisterInfo = {
-  pseudonym: ?string,
-  firstName: ?string,
-  lastName: ?string,
+export type RegisterInfo = {
+  pseudonym: string,
+  firstName: string,
+  lastName: string,
   email: string,
   password: string,
 }

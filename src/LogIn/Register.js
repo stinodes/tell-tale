@@ -18,6 +18,7 @@ import {
   Divider,
 } from '../Components'
 import { useProfileContext } from '../Profile/ProfileContext'
+import type { RegisterInfo } from '../Profile/ProfileContext'
 
 const Input = asField(
   styled(Text.withComponent('input'))(
@@ -56,7 +57,18 @@ const Register = (props: Props) => {
   return (
     <Page title="Register">
       {loggedIn && <Redirect from="register" to="profile" noThrow />}
-      <Formik validationSchema={validationSchema} onSubmit={register}>
+      <Formik
+        validationSchema={validationSchema}
+        initialValues={
+          ({
+            pseudonym: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            password: '',
+          }: any)
+        }
+        onSubmit={register}>
         {({ touched, errors, handleSubmit }) => (
           <Flex
             as="form"

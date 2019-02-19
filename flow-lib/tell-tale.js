@@ -18,9 +18,9 @@ declare module 'tell-tale' {
   }
 
   declare export type Profile = {
-    pseudonym: ?string,
-    firstName: ?string,
-    lastName: ?string,
+    pseudonym: string,
+    firstName: string,
+    lastName: string,
     email: string,
   }
 }
