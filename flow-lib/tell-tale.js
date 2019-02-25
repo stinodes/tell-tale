@@ -16,4 +16,14 @@ declare module 'tell-tale' {
     tags: ?(Tag[]),
     contributors: Contributors[],
   }
+
+  declare export type Profile = {
+    id: string,
+    pseudonym: string,
+    firstName: string,
+    lastName: string,
+    email: string,
+    bio: string,
+    tales: ?(Tale[]),
+  }
 }

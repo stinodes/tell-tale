@@ -17,16 +17,18 @@ const OutlineComp = styled(Flex)(
 const Outline = ({
   children,
   render,
+  outline,
   ...props
 }: {
   children: React.Node,
   render?: boolean => React.Node,
+  outline?: boolean | string,
   borderRadius?: number,
 }) => {
   const [isFocused, setFocused] = React.useState(false)
   const child = React.Children.only(children)
   return (
-    <OutlineComp outline={isFocused} {...props}>
+    <OutlineComp outline={isFocused || outline} {...props}>
       {React.cloneElement(child, {
         onFocus: e => {
           setFocused(true)

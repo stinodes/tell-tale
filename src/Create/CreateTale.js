@@ -18,6 +18,7 @@ const CreateTale = (props: Props) => {
         px={{ sm: 5, md: 8 }}
         pt={6}
         m="auto"
+        flex={1}
         flexDirection="column">
         <TaleForm
           tale={null}

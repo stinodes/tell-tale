@@ -28,7 +28,12 @@ const Keys = {
 
 const TitleInput = asField(
   styled(TaleTitle.withComponent(TextArea))(
-    { border: 'none', outline: 'none', width: '100%' },
+    {
+      border: 'none',
+      outline: 'none',
+      width: '100%',
+      resize: 'none',
+    },
     { '::placeholder': { opacity: 0.6, color: 'inherit' } },
     space,
   ),

@@ -6,12 +6,8 @@ import { typography } from './styles'
 export const Text = styled('p')(
   color,
   typography,
-  {
-    padding: 0,
-    margin: 0,
-  },
+  { whiteSpace: 'pre-wrap', padding: 0, margin: 0 },
   ({ sans, bold, fontWeight }) => ({
-    fontWeight: bold ? 'bold' : fontWeight,
     fontFamily: sans ? 'Montserrat' : 'Roboto Slab',
   }),
 )
