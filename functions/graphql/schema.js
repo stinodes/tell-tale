@@ -1,24 +1,33 @@
 const graphqlTools = require('graphql-tools')
 const admin = require('firebase-admin')
 const functions = require('firebase-functions')
-const { AuthenticationError } = require('apollo-server-express')
+const { AuthenticationError, NotFoundError } = require('apollo-server-express')
 const { prop, map, call, compose } = require('ramda')
 
 const schema = `
   type Query {
     tales: [Tale]
+    talesForUser(userId: String): [Tale]
+    talesForTags(tags: [String]): [Tale]
     users: [User]
     me: User
   }
 
   type Mutation {
-    addUser(user: AddUserInput!): User
+    addUser(user: AddRegisterUserInput!): User
+    editUser(user: EditUserInput): User
   }
   
-  input AddUserInput {
+  input AddRegisterUserInput {
     pseudonym: String
     firstName: String
     lastName: String
+  }
+  input EditUserInput {
+    pseudonym: String
+    firstName: String
+    lastName: String
+    bio: String
   }
 
   type Tale {
@@ -41,6 +50,8 @@ const schema = `
     pseudonym: String
     firstName: String
     lastName: String
+    bio: String
+    tales: [Tale]
   }
 
   type Tag {
@@ -68,12 +79,9 @@ const resolvers = {
     async me(_, __, { req }) {
       if (!req.uid) throw new AuthenticationError('You are not logged in.')
 
-      const userSnapshot = await usersReference
-        .where('authUid', '==', req.uid)
-        .limit(1)
-        .get()
+      const userSnapshot = await usersReference.doc(req.uid).get()
 
-      const user = data(userSnapshot.docs[0])
+      const user = data(userSnapshot)
 
       return user
     },
@@ -87,14 +95,23 @@ const resolvers = {
       { req },
     ) {
       if (!req.uid) throw new AuthenticationError('You are not logged in.')
-      const doc = await usersReference.add({
+      const doc = await usersReference.doc(req.uid).set({
         authUid: req.uid,
         pseudonym,
         firstName,
         lastName,
       })
       return data(await doc.get())
-      // return { id: 'test', authUid: 'test' }
+    },
+    async editUser(_, { user }, { req }) {
+      console.log(user)
+      const userDocument = await usersReference.doc(req.uid)
+      try {
+        await userDocument.update(user)
+        return data(await userDocument.get())
+      } catch (e) {
+        throw new NotFoundError('User does not exist')
+      }
     },
   },
   Tale: {
@@ -109,6 +126,14 @@ const resolvers = {
         .orderBy('index', 'asc')
         .get()
       return map(data, paragraphsSnapshot.docs)
+    },
+  },
+  User: {
+    async tales(user) {
+      const talesSnapshot = await talesReference
+        .where('author', '==', user.id)
+        .get()
+      return map(data, talesSnapshot.docs)
     },
   },
 }

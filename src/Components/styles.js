@@ -167,7 +167,7 @@ export const outline = <
     return {
       position: 'relative',
       borderRadius: br,
-      margin: 1.5,
+      border: 'transparent solid 1.5px',
       '::before': outlineStyle,
       ':focus': focusStyle,
     }

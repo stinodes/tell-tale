@@ -1,11 +1,13 @@
 // @flow
 import * as React from 'react'
+import { Link } from '@reach/router'
 import { ThemeContext } from '@emotion/core'
 import styled from '@emotion/styled'
 import { width, height, color } from 'styled-system'
 import { flexBox } from '../styles'
 
 import { Base } from '../Button'
+import { ReactComponent as Check } from './feather/check.svg'
 import { ReactComponent as Home } from './feather/home.svg'
 import { ReactComponent as Edit } from './feather/edit-3.svg'
 import { ReactComponent as User } from './feather/user.svg'
@@ -16,6 +18,7 @@ import { ReactComponent as LogIn } from './feather/log-in.svg'
 import { ReactComponent as UserPlus } from './feather/user-plus.svg'
 
 const ICONS = {
+  Check,
   ChevronLeft,
   CornerDownRight,
   Edit,
@@ -26,7 +29,7 @@ const ICONS = {
   UserPlus,
 }
 
-const IconButton = styled(Base)(color, height, width, flexBox, {
+const IconButtonContainer = styled(Base)(color, height, width, flexBox, {
   border: 'none',
 })
 
@@ -43,7 +46,34 @@ const Icon = ({ color, icon: Svg, ...props }: Props) => {
 
 const StyledIcon = styled(Icon)(width, height)
 
+type IconButtonProps = {
+  to?: string,
+  onClick?: () => any,
+  icon: React.ComponentType<*>,
+}
+const IconButton = ({ to, onClick, icon, ...props }: IconButtonProps) => {
+  return (
+    <IconButtonContainer
+      {...props}
+      as={to && Link}
+      to={to}
+      onClick={onClick}
+      width={{ sm: 40, md: 48 }}
+      height={{ sm: 40, md: 48 }}
+      justifyContent="center"
+      alignItems="center"
+      bg="transparent">
+      <StyledIcon
+        icon={icon}
+        size={{ sm: 28, md: 32 }}
+        color="lapisLazuliLight"
+      />
+    </IconButtonContainer>
+  )
+}
+
 Icon.ICONS = ICONS
 StyledIcon.ICONS = ICONS
+IconButton.ICONS = ICONS
 
-export { StyledIcon as Icon, IconButton }
+export { StyledIcon as Icon, IconButtonContainer, IconButton }

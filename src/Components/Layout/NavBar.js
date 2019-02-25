@@ -5,7 +5,8 @@ import { transparentize } from 'polished'
 import { color } from 'styled-system'
 import { Flex } from '../Container'
 import { H1 } from '../Text'
-import { NavLink, BackButton } from './NavButton'
+import { BackButton } from './NavButton'
+import { IconButton } from '../Icons'
 import { flexBox } from '../styles'
 import { PageContext } from './Page'
 
@@ -43,13 +44,25 @@ export const NavBar = (props: Props) => {
       </Flex>
       <Flex px={{ sm: 1, md: 3 }}>
         <Flex px={{ sm: 1, md: 2 }}>
-          <NavLink key="browse-tales" to="/browse" icon={NavLink.ICONS.Home} />
+          <IconButton
+            key="browse-tales"
+            to="/browse"
+            icon={IconButton.ICONS.Home}
+          />
         </Flex>
         <Flex px={{ sm: 1, md: 2 }}>
-          <NavLink key="create-tale" to="/create" icon={NavLink.ICONS.Edit} />
+          <IconButton
+            key="create-tale"
+            to="/create"
+            icon={IconButton.ICONS.Edit}
+          />
         </Flex>
         <Flex px={{ sm: 1, md: 2 }}>
-          <NavLink key="profile" to="/profile" icon={NavLink.ICONS.User} />
+          <IconButton
+            key="profile"
+            to="/profile"
+            icon={IconButton.ICONS.User}
+          />
         </Flex>
       </Flex>
     </NavBarComp>

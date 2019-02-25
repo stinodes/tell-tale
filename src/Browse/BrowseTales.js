@@ -5,7 +5,7 @@ import { ThemeContext } from '@emotion/core'
 import gql from 'graphql-tag'
 import { useQuery } from 'react-apollo-hooks'
 
-import { Col, Flex } from '../Components'
+import { Col, Flex, MaxWidthContainer } from '../Components'
 import { Page } from '../Components/Layout'
 import { Masonry } from '../Components/Masonry'
 import { TaleSummary } from './TaleSummary'
@@ -37,14 +37,11 @@ const BrowseTales = (props: Props) => {
 
   return (
     <Page title="Browse">
-      <Flex
+      <MaxWidthContainer
+        pt={4}
         className={css({
           overflowX: 'hidden',
-        })}
-        maxWidth={1640}
-        pt={4}
-        px={{ sm: 6, md: 140 }}
-        mx="auto">
+        })}>
         {tales && (
           <Masonry breakpoints={breakpoints} columns={{ sm: 1, lg: 2, xlg: 3 }}>
             {tales.map(tale => (
@@ -58,7 +55,7 @@ const BrowseTales = (props: Props) => {
             ))}
           </Masonry>
         )}
-      </Flex>
+      </MaxWidthContainer>
     </Page>
   )
 }

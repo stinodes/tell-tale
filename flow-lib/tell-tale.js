@@ -18,9 +18,12 @@ declare module 'tell-tale' {
   }
 
   declare export type Profile = {
+    id: string,
     pseudonym: string,
     firstName: string,
     lastName: string,
     email: string,
+    bio: string,
+    tales: ?(Tale[]),
   }
 }

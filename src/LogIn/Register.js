@@ -18,7 +18,6 @@ import {
   Divider,
 } from '../Components'
 import { useProfileContext } from '../Profile/ProfileContext'
-import type { RegisterInfo } from '../Profile/ProfileContext'
 
 const Input = asField(
   styled(Text.withComponent('input'))(

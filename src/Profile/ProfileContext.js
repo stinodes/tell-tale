@@ -3,7 +3,7 @@ import * as React from 'react'
 import * as firebase from 'firebase/app'
 import gql from 'graphql-tag'
 import { useMutation, useQuery } from 'react-apollo-hooks'
-import type { Profile } from 'tell-tale'
+import type { Profile, Tale } from 'tell-tale'
 
 export type LogInInfo = {
   email: string,
@@ -17,17 +17,24 @@ export type RegisterInfo = {
   email: string,
   password: string,
 }
+export type EditProfileInput = $Diff<Profile, { tales: ?(Tale[]) }>
+
 type Context = {
   profile: ?Profile,
+  tales: ?Array<Tale>,
   loggedIn: ?boolean,
 
+  editProfile: EditProfileInput => Promise<void>,
   logIn: LogInInfo => Promise<void>,
   register: RegisterInfo => Promise<void>,
   logOut: () => Promise<void>,
 }
 const ProfileContext = React.createContext<Context>({
   profile: null,
+  tales: null,
   loggedIn: false,
+
+  editProfile: () => Promise.resolve(),
   logIn: () => Promise.resolve(),
   register: () => Promise.resolve(),
   logOut: () => Promise.resolve(),
@@ -40,12 +47,33 @@ const ADD_USER = gql`
     }
   }
 `
+const EDIT_USER = gql`
+  mutation editUser($user: EditUserInput!) {
+    editUser(user: $user) {
+      id
+    }
+  }
+`
 const GET_ME = gql`
   {
     me {
       pseudonym
       firstName
       lastName
+      bio
+      tales {
+        id
+        title
+        description
+        paragraphs {
+          index
+          body
+        }
+        tags {
+          label
+          name
+        }
+      }
     }
   }
 `
@@ -68,9 +96,11 @@ type Props = {
 const ProfileProvider = (props: Props) => {
   const [user, setUser] = React.useState()
   const addUser = useMutation(ADD_USER)
+  const editUser = useMutation(EDIT_USER)
 
   const {
     data: { me: profile },
+    refetch,
   } = useQuery(GET_ME, {
     suspend: false,
     variables: { uid: user && user.uid },
@@ -84,6 +114,10 @@ const ProfileProvider = (props: Props) => {
 
   const value = {
     logIn,
+    editProfile: async (values: EditProfileInput) => {
+      await editUser({ variables: { user: values } })
+      await refetch()
+    },
     register: async ({
       email,
       password,
@@ -95,7 +129,8 @@ const ProfileProvider = (props: Props) => {
       await addUser({ variables: { user: userInput } })
     },
     logOut,
-    profile: profile,
+    profile,
+    tales: profile && profile.tales,
     loggedIn: user === undefined ? null : !!user,
   }
 

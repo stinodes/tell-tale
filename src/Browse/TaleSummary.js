@@ -2,15 +2,7 @@
 import * as React from 'react'
 import { css } from 'emotion'
 import { Link } from '@reach/router'
-import {
-  Flex,
-  Text,
-  TaleTitle,
-  Box,
-  Body,
-  Icon,
-  IconButton,
-} from '../Components'
+import { Flex, Text, TaleTitle, Box, Body, IconButton } from '../Components'
 import { Tag } from './Tag'
 import type { Tale } from 'tell-tale'
 
@@ -58,18 +50,8 @@ export const TaleSummary = ({ tale, height = 256 }: Props) => {
         <Flex alignItems="center">
           <IconButton
             to={`/tales/${tale.title}`}
-            as={Link}
-            width={40}
-            height={40}
-            justifyContent="center"
-            alignItems="center"
-            bg="transparent">
-            <Icon
-              icon={Icon.ICONS.CornerDownRight}
-              size={32}
-              color="lapisLazuliLight"
-            />
-          </IconButton>
+            icon={IconButton.ICONS.CornerDownRight}
+          />
         </Flex>
       </Flex>
     </Flex>

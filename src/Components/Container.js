@@ -1,4 +1,5 @@
 // @flow
+import * as React from 'react'
 import styled from '@emotion/styled'
 import withProps from 'recompose/withProps'
 import { transparentize } from 'polished'
@@ -9,6 +10,17 @@ export const Box = styled('div')(layout, position, color)
 export const Flex = styled(Box)({ display: 'flex' }, flexBox)
 
 export const Absolute = withProps({ position: 'absolute' })(Box)
+
+export const MaxWidthContainer = (props: {}) => (
+  <Flex
+    px={{ sm: 6, md: 140 }}
+    maxWidth={1640}
+    mx="auto"
+    width={1}
+    flexDirection="column"
+    {...props}
+  />
+)
 
 export const Grid = withProps(({ gutter, ...props }) => {
   let invertedGutter
