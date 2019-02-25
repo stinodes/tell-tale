@@ -5,7 +5,7 @@ import { ThemeContext } from '@emotion/core'
 import gql from 'graphql-tag'
 import { useQuery } from 'react-apollo-hooks'
 
-import { Col, Flex, MaxWidthContainer } from '../Components'
+import { Col, MaxWidthContainer } from '../Components'
 import { Page } from '../Components/Layout'
 import { Masonry } from '../Components/Masonry'
 import { TaleSummary } from './TaleSummary'

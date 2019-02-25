@@ -1,7 +1,7 @@
 // @flow
 import * as React from 'react'
 import { Redirect } from '@reach/router'
-import { ThemeContext, css } from '@emotion/core'
+import { ThemeContext } from '@emotion/core'
 import styled from '@emotion/styled'
 import { Formik, Field, Form } from 'formik'
 import { space } from 'styled-system'
@@ -16,8 +16,6 @@ import {
   Absolute,
   MaxWidthContainer,
   asField,
-  Body,
-  TaleTitle,
   TextArea,
   IconButton,
   Outline,
@@ -26,7 +24,6 @@ import { errorOutline } from '../utils/forms'
 import { TaleSummary } from '../Browse/TaleSummary'
 import { Page } from '../Components/Layout'
 import type { Profile as ProfileType } from 'tell-tale'
-import type { EditProfileInput } from './ProfileContext'
 
 const Input = asField(
   styled(Text.withComponent('input'))(
@@ -199,7 +196,6 @@ const Profile = (props: Props) => {
                       name="bio"
                       id="bio"
                       placeholder="Your bio"
-                      textAlign="left"
                       color="blackCoral"
                       fontSize={18}
                       px={5}
@@ -216,11 +212,7 @@ const Profile = (props: Props) => {
                       px={5}
                       py={3}
                       flexDirection="column">
-                      <Text
-                        textAlign="left"
-                        color="blackCoral"
-                        fontSize={18}
-                        textAlign="center">
+                      <Text color="blackCoral" fontSize={18} textAlign="center">
                         {profile.bio}
                       </Text>
                     </Flex>

@@ -1,7 +1,6 @@
 // @flow
 import * as React from 'react'
 import { css } from 'emotion'
-import { Link } from '@reach/router'
 import { Flex, Text, TaleTitle, Box, Body, IconButton } from '../Components'
 import { Tag } from './Tag'
 import type { Tale } from 'tell-tale'
